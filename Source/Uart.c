@@ -8,81 +8,105 @@
 /*----------------------------------------------------------------------------*
  *                      Define variables                                      *
  *----------------------------------------------------------------------------*/
+#define UART_PREEMPTION_PRIORITY                1
+#define UART_USART                              USART3
+#define UART_RCC_APB1Periph_USART               RCC_APB1Periph_USART3
+#define UART_RCC_AHB1Periph_GPIO                RCC_AHB1Periph_GPIOB
+#define UART_GPIO                               GPIOB
+#define UART_GPIO_PinSource1                    GPIO_PinSource10
+#define UART_GPIO_PinSource2                    GPIO_PinSource11
+#define UART_GPIO_AF_USART                      GPIO_AF_USART3
+#define UART_GPIO_Pin                           (GPIO_Pin_10 | GPIO_Pin_11)
+#define UART_NVIC_IRQChannel                    USART3_IRQn
 
+    
+volatile char                                   g_szBuffer[64];
+volatile int                                    g_idx = 0;
+volatile int                                    g_iMaxCount = 64;
+volatile char                                   g_iLen = 0;
+volatile char                                   g_isTransfering = 0;
+volatile char                                   g_queue[10];
+volatile char                                   g_queueCapacity = 10;
+volatile char                                   g_queueSize = 0;
 
+/*-------------------------------INIT FUNCTIONS--------------------------------------------*/
 
 /*----------------------------------------------------------------------------*
-**Func name: RCC_Configuration                                                *
+**Func name: UART_Init                                                        *
+**Execute: Init uart                                                          *
 **Func params: None                                                           *
 **Func return: None                                                           *
  *----------------------------------------------------------------------------*/
-void RCC_Configuration(void)
+void UART_Init(uint32_t baudrate){
+    GPIO_InitTypeDef GPIO_InitStruct;
+    USART_InitTypeDef USART_InitStruct;
+    NVIC_InitTypeDef NVIC_InitStruct;	
+    
+    // Step 1
+    RCC_APB1PeriphClockCmd(UART_RCC_APB1Periph_USART, ENABLE);
+    
+    // Step 2
+    RCC_AHB1PeriphClockCmd(UART_RCC_AHB1Periph_GPIO, ENABLE);
+    
+    // Step 3
+    GPIO_PinAFConfig(UART_GPIO, UART_GPIO_PinSource1, UART_GPIO_AF_USART);
+    GPIO_PinAFConfig(UART_GPIO, UART_GPIO_PinSource2, UART_GPIO_AF_USART);
+    
+    GPIO_InitStruct.GPIO_Pin = UART_GPIO_Pin;
+    GPIO_InitStruct.GPIO_Mode = GPIO_Mode_AF;
+    GPIO_InitStruct.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_InitStruct.GPIO_OType = GPIO_OType_PP;
+    GPIO_InitStruct.GPIO_PuPd = GPIO_PuPd_UP;
+    GPIO_Init(UART_GPIO, &GPIO_InitStruct);
+    
+    // Step 4
+    USART_InitStruct.USART_BaudRate = baudrate;
+    USART_InitStruct.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
+    USART_InitStruct.USART_Mode = USART_Mode_Tx | USART_Mode_Rx;
+    USART_InitStruct.USART_Parity = USART_Parity_No;
+    USART_InitStruct.USART_StopBits = USART_StopBits_1;
+    USART_InitStruct.USART_WordLength = USART_WordLength_8b;
+    USART_Init(UART_USART, &USART_InitStruct);
+    
+    // Step 5
+    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_4);
+    NVIC_InitStruct.NVIC_IRQChannel = UART_NVIC_IRQChannel;
+    NVIC_InitStruct.NVIC_IRQChannelCmd = ENABLE;
+    NVIC_InitStruct.NVIC_IRQChannelPreemptionPriority = UART_PREEMPTION_PRIORITY;
+    NVIC_Init(&NVIC_InitStruct);
+    
+    USART_ITConfig(UART_USART, USART_IT_RXNE, ENABLE);
+    
+    // Step 7
+    USART_Cmd(UART_USART, ENABLE);
+    
+}
+
+/*------------------------------------ END INIT FUNCTIONS ----------------------- */
+
+/*----------------------------------------------------------------------------*
+**Func name: UART_ITConfigTXE                                                 *
+**Execute: config ITConfigTXE                                                 *
+**Func params: None                                                           *
+**Func return: None                                                           *
+ *----------------------------------------------------------------------------*/
+void UART_ITConfigTXE(FunctionalState newState)
 {
-    /* --------------------------- System Clocks Configuration -----------------*/
-    /* USART3 clock enable */
-    RCC_APB1PeriphClockCmd(RCC_APB1Periph_USARTx, ENABLE);
-    RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOx, ENABLE);
-    /* GPIOD clock enable */
-    RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOD, ENABLE);
- 
-}
-/*----------------------------------------------------------------------------*
-**Func name: NVIC_Configuration                                               *
-**Func params: None                                                           *
-**Func return: None                                                           *
- *----------------------------------------------------------------------------*/
-void NVIC_Configuration(uint16_t preem_priority, uint16_t sub_priority)
-{
-  NVIC_InitTypeDef NVIC_InitStructure;
-   
-  /* Configure the NVIC Preemption Priority Bits */
-  NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
-   
-  /* Enable the USART3 Interrupt */
-  NVIC_InitStructure.NVIC_IRQChannel = USARTx_IRQn;
-  NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = preem_priority;
-  NVIC_InitStructure.NVIC_IRQChannelSubPriority = sub_priority;
-  NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
-  NVIC_Init(&NVIC_InitStructure);
-}
-   
-/*----------------------------------------------------------------------------*
-**Func name: GPIO_Configuration                                               *
-**Func params: None                                                           *
-**Func return: None                                                           *
- *----------------------------------------------------------------------------*/
-void GPIO_Configuration(void)
-{
-    GPIO_InitTypeDef GPIO_InitStructure;
-     
-    /* Connect USART pins to AF */
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_TXD | GPIO_Pin_RXD;
-    GPIO_Init(UART_GPIOx, &GPIO_InitStructure);
-      
-    GPIO_PinAFConfig(UART_GPIOx, GPIO_PinSource_TXD, GPIO_AF_USARTindex);
-    GPIO_PinAFConfig(UART_GPIOx, GPIO_PinSource_RXD, GPIO_AF_USARTindex);
-}
-   
-/*----------------------------------------------------------------------------*
-**Func name: USART3_Configuration                                             *
-**Func params: None                                                           *
-**Func return: None                                                           *
- *----------------------------------------------------------------------------*/
-void USARTx_Configuration(uint32_t baudrate)
-{  
-    USART_InitTypeDef USART_InitStructure;
-    USART_InitStructure.USART_BaudRate = baudrate;
-    USART_InitStructure.USART_WordLength = USART_WordLength_8b;
-    USART_InitStructure.USART_StopBits = USART_StopBits_1;
-    USART_InitStructure.USART_Parity = USART_Parity_No;
-    USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
-    USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
-    USART_Init(USART_index,&USART_InitStructure);
-    USART_ITConfig(USART_index, USART_IT_RXNE , ENABLE); //Enable interrupt
-    USART_Cmd(USART_index, ENABLE);
+    USART_ITConfig(UART_USART, USART_IT_TXE, newState);
 }
 
+
+/*----------------------------------------------------------------------------*
+**Func name: UART_ITConfigRXNE                                                *
+**Execute: config ITConfigRXE                                                 *
+**Func params: None                                                           *
+**Func return: None                                                           *
+ *----------------------------------------------------------------------------*/
+
+void UART_ITConfigRXNE(FunctionalState newState)
+{
+    USART_ITConfig(UART_USART, USART_IT_RXNE, newState);
+}
 
    
 /*----------------------------------------------------------------------------*
@@ -92,34 +116,151 @@ void USARTx_Configuration(uint32_t baudrate)
 **      char *data: Array of character will be send                           *
 **Func return: None                                                           *
  *----------------------------------------------------------------------------*/
-void send_data(char *data) {
+void UART_Send_String_data(char *data) {
     int32_t count = 0;
     char character = data[count++];
        
     while (character)
     {
-        while (USART_GetFlagStatus(USART3, USART_FLAG_TXE) != SET)
+        while (USART_GetFlagStatus(UART_USART, USART_FLAG_TXE) != SET)
         {
             //do nothing here;
         }
             
-        USART_SendData(USART3, character);
+        UART_Send_Char_data(character);
         character = data[count++];
     } 
 }
+void UART_Send_Char_data(char ch) {
+            
+    USART_SendData(UART_USART, ch);
+     
+}
 
 /*----------------------------------------------------------------------------*
-**Func name: uart_init                                                        *
-**Execute: Init uart                                                          *
+**Func name: UART_Receive_Data                                                *
+**Execute: Receive Data from uart                                             *
 **Func params: None                                                           *
 **Func return: None                                                           *
  *----------------------------------------------------------------------------*/
-void uart_init(uint32_t baudrate){
-    RCC_Configuration();
-   
-    GPIO_Configuration();
-    
-    NVIC_Configuration(0,1);
-    
-    USARTx_Configuration(baudrate);
+uint8_t UART_Receive_Data()
+{
+    return USART_ReceiveData(UART_USART);
 }
+
+
+
+/*----------------------------------------------------------------------------*
+**Func name: UART_ClearBuffer                                                 *
+**Execute: Clear data buffer                                                  *
+**Func params: None                                                           *
+**Func return: None                                                           *
+ *----------------------------------------------------------------------------*/
+void UART_ClearBuffer()
+{
+    int i = 0;
+    for(; i < g_iMaxCount; i++)
+    {
+        g_szBuffer[i] = 0;
+    }
+    
+    g_idx = 0;
+    g_iLen = 0;
+}
+
+/*----------------------------------------------------------------------------*
+**Func name: UART_UpdateBuffer                                                *
+**Execute: update data buffer                                                 *
+**Func params:                                                                *
+**              szNewBuffer:    New data buffer                               *
+**Func return: None                                                           *
+ *----------------------------------------------------------------------------*/
+void UART_UpdateBuffer(volatile char szNewBuffer[])
+{
+    int i = 0;
+    g_isTransfering = 1;
+    UART_ClearBuffer();
+    
+    for(; szNewBuffer[i] != 0; i++)
+    {
+        g_szBuffer[i] = szNewBuffer[i];
+    }
+    
+    g_iLen = i;
+    
+    // Ready to send data.
+    UART_ITConfigTXE(ENABLE);
+}
+
+/*----------------------------------------------------------------------------*
+**Func name: UART_PushData                                                    *
+**Execute: Push a character data into buffer                                  *
+**Func params:                                                                *
+**                  ch:     Character is pushed into buffer                   *
+**Func return: None                                                           *
+ *----------------------------------------------------------------------------*/
+void UART_PushData(char ch)
+{
+    while(g_queueSize >= g_queueCapacity)
+    {
+        UART_PopData();
+    }
+    g_queue[g_queueSize++] = ch;
+}
+
+/*----------------------------------------------------------------------------*
+**Func name: UART_PopData                                                     *
+**Execute: Pop a character data from buffer                                   *
+**Func params: None                                                           *
+**Func return: None                                                           *
+**                  char:     Character is popped from buffer                 *
+ *----------------------------------------------------------------------------*/
+char UART_PopData(void)
+{
+    char ret;
+    int i = 1;
+    if(g_queueSize == 0)
+        return 0;
+    
+    ret = g_queue[0];
+    
+    for(; i < g_queueSize; i++)
+    {
+        g_queue[i - 1] = g_queue[i];
+    }
+    
+    g_queueSize--;
+    
+    return ret;
+}
+/*----------------------------------------------------------------------------*
+**Func name: UART_IsTransfering                                               *
+**Execute: Check if UART is transfering                                       *
+**Func params: None                                                           *
+**Func return: None                                                           *
+**                  char:     Character is popped from buffer                 *
+ *----------------------------------------------------------------------------*/
+char UART_IsTransfering(void)
+{
+    return g_isTransfering;
+}
+/*------------------------- IT HANDLER ------------------------- */
+/*----------------------------------------------------------------------------*
+**Func name: USART3_IRQHandler                                                *
+**Execute: Receive data and send to HT                                        *
+**Func params: None                                                           *
+**Func return: None                                                           *
+ *----------------------------------------------------------------------------*/
+void USART3_IRQHandler(void)
+{
+    
+    // Has data to receive.
+    if(RESET != USART_GetITStatus(UART_USART, USART_IT_RXNE))
+    {
+        USART_ClearITPendingBit(UART_USART, USART_IT_RXNE);
+        
+        UART_PushData(UART_Receive_Data());
+    }
+}
+
+

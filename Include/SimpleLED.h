@@ -16,7 +16,7 @@
  *                      Define funcs                                          *
  *----------------------------------------------------------------------------*/
 extern void send_Simple_LED_Menu(void);
-
+extern void execute_Simple_LED_function(void);
 #endif
 
 

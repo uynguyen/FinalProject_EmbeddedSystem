@@ -15,24 +15,16 @@
 
 #ifndef __Uart_H
 #define __Uart_H
-/*----------------------------------------------------------------------------*
- *                      Define macros                                      *
- *----------------------------------------------------------------------------*/
-#define     USART_index                 USART3
-#define     GPIO_PinSource_TXD          GPIO_PinSource10
-#define     GPIO_PinSource_RXD          GPIO_PinSource11
-#define     GPIO_Pin_TXD                GPIO_Pin_10
-#define     GPIO_Pin_RXD                GPIO_Pin_11
-#define     GPIO_AF_USARTindex          GPIO_AF_USART3
-#define     UART_GPIOx                  GPIOB
-#define     RCC_APB1Periph_USARTx       RCC_APB1Periph_USART3
-#define     RCC_AHB1Periph_GPIOx        RCC_AHB1Periph_GPIOB
-#define     USARTx_IRQn                 USART3_IRQn
+
 /*----------------------------------------------------------------------------*
  *                      Define funcs                                          *
  *----------------------------------------------------------------------------*/
-extern void uart_init(uint32_t);
-extern void send_data(char *);
-extern void GPIO_Configuration(void);
-extern void RCC_Configuration(void);
+extern void UART_Init(uint32_t);
+extern void UART_Send_String_data(char *);
+extern void UART_Send_Char_data(char);
+
+/* Interrupt functions ****************************************************/
+extern void UART_UpdateBuffer(volatile char[]);
+extern char UART_PopData(void);
+extern char UART_IsTransfering(void);
 #endif
