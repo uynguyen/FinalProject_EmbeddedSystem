@@ -13,14 +13,11 @@
  * Copyright (c) 2011 Keil - An ARM Company. All rights reserved.
  *----------------------------------------------------------------------------*/
 
-#ifndef __LED_H
-#define __LED_H
+#ifndef __CONTROLLER_H
+#define __CONTROLLER_H
 /*----------------------------------------------------------------------------*
  *                      Define macros                                         *
  *----------------------------------------------------------------------------*/
-#define     LED_NUM                      4                        /* Number of user LEDs          */
-
-typedef enum {GREEN_LED = GPIO_Pin_12, ORANGE_LED = GPIO_Pin_13,RED_LED = GPIO_Pin_14, BLUE_LED = GPIO_Pin_15} LED_COLOR;
 
 
 
@@ -28,12 +25,7 @@ typedef enum {GREEN_LED = GPIO_Pin_12, ORANGE_LED = GPIO_Pin_13,RED_LED = GPIO_P
 /*----------------------------------------------------------------------------*
  *                      Define functions                                         *
  *----------------------------------------------------------------------------*/
-extern void LED_Init(void);
-extern void LED_On  (LED_COLOR);
-extern void LED_Off (LED_COLOR);
-extern void LED_Out (unsigned int value);
-extern void LED_Double_On (unsigned int num);
-extern void LED_Double_Off (unsigned int num);
-extern void All_LED_On (void);
-extern void All_LED_Off (void);
+extern void send_Main_Menu(void);
+extern void init_Main_Menu(void);
+
 #endif
