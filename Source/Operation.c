@@ -68,7 +68,15 @@ void get_Operands_From_User()
     operand1 -= 48;
     operand2 -= 48;
 }
-
+void send_Result(int32_t result)
+{
+    if(result < 0 )
+    {
+        result *= (-1);
+        UART_Send_String_data("- ");
+        UART_Send_Char_data(result + 48);
+    }
+}
 void execute_Basic_Operation_Function(void)
 {
     char recv = 0;
@@ -83,14 +91,15 @@ void execute_Basic_Operation_Function(void)
         {
            recv = UART_PopData();
         }while (recv == 0);
-        if(recv != 27)
+        if(recv != 27 && (recv >= 'a' && recv <= 'e'))
             get_Operands_From_User();
         switch(recv)
         {
             case (int)'a':
             {
                 result = operand1 + operand2;
-                UART_Send_Char_data(result + 48);
+                send_Result(result);
+                
                 UART_Send_String_data("\r\n----------------------");
                 UART_Send_String_data(esc_string);
                 do{
@@ -104,7 +113,7 @@ void execute_Basic_Operation_Function(void)
             case (int)'b':
             {
                 result =  operand1 -  operand2;
-                UART_Send_Char_data(result + 48);
+                send_Result(result);
                 UART_Send_String_data("\r\n----------------------");
                 UART_Send_String_data(esc_string);
                 do{

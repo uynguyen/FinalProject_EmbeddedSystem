@@ -17,6 +17,10 @@
 #include "LED.h"
 #include "Uart.h"
 #include <string.h>
+#include "AdvanceLED.h"
+#include "SPI.h"
+volatile LED_COLOR led_start;
+volatile LED_DIRECTION led_direction;
 void send_Advance_LED_Menu(void)
 {
     char simple_LED_menu[200];
@@ -28,7 +32,101 @@ void send_Advance_LED_Menu(void)
     strcat(simple_LED_menu, option_3);
     UART_Send_String_data(simple_LED_menu);
 }
+void Set_led()
+{
+    char led = 0;
+    UART_Send_String_data("\r\n---------------------------");
+    UART_Send_String_data("\r\na.Set LED (r,g,o,b): ");
+    UART_Send_String_data("\r\n ESC: return previous menu");
+    
 
+    do
+    {
+        led = UART_PopData();
+            
+    }while(led == 0);
+
+    switch(led)
+    {
+        case 'r':
+            led_start = RED_LED;
+            break;
+        
+        case 'g':
+            led_start = GREEN_LED;
+            break;
+        case 'o':
+            led_start = ORANGE_LED;
+            break;
+        case 'b':
+            led_start = BLUE_LED;
+            break;
+        
+        default:
+            led_start = RED_LED;
+            break;
+    }
+    
+    
+}
+/*----------------------------------------------------------------------------
+  Function that read Button pins
+ *----------------------------------------------------------------------------*/
+uint32_t BTN_Get(void) {
+    return (GPIOA->IDR & (1UL << 0));
+}
+
+void Set_direction()
+{
+    char direction = 0;
+    UART_Send_String_data("\r\n---------------------------");
+    UART_Send_String_data("\r\na.Set direction (c,a): ");
+    UART_Send_String_data("\r\n ESC: return previous menu");
+    do
+    {
+        direction = UART_PopData();
+            
+    }while(direction == 0);
+
+    switch(direction)
+    {
+        case '0':
+            led_direction = CLOCKWISE;
+            break;
+        
+        case '1':
+            led_direction = ANTICLOCKWISE;
+            break;
+
+        default:
+            led_direction = CLOCKWISE;
+            break;
+    }
+    
+    
+}
+void Run()
+{
+    uint32_t btns = 0;
+    uint8_t data = 0;
+    char revc = 0;
+        do { 
+            /* Loop forever               */
+            btns = BTN_Get();
+            if (btns != (1UL << 0)) {
+                All_LED_Off();
+            }
+            else
+            {
+                mySPIx_SendData(0x20, data); 
+                LED_On(data);
+               // Delay(200);
+                data++;
+                if(data == LED_NUM)
+                    data = 0;
+            }
+            }while(revc != 27);
+}
 void execute_Advance_LED_Function(void)
 {
     char recv = 0;
@@ -45,15 +143,15 @@ void execute_Advance_LED_Function(void)
         switch(recv)
         {
             case (int)'a':
-                LED_On(GREEN_LED);
+                Set_led();
             break;
             
             case (int)'b':
-                LED_Off(GREEN_LED);
+                Set_direction();
             break;
             
             case (int)'c':
-                LED_On(ORANGE_LED);
+                Run();
             break;
             
             default:

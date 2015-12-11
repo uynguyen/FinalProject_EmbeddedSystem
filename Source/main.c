@@ -5,10 +5,23 @@
 #include "Led.h"
 #include "SimpleLED.h"
 #include "Operation.h"
+#include "AdvanceLED.h"
+#include "SPI.h"
 /*----------------------------------------------------------------------------*
 **                               DEFINE VARIABLE                              *
 *----------------------------------------------------------------------------*/
 
+/*----------------------------------------------------------------------------
+  Function that initializes Button pins
+ *----------------------------------------------------------------------------*/
+void BTN_Init(void) {
+
+  RCC->AHB1ENR  |= ((1UL <<  0) );              /* Enable GPIOA clock         */
+  GPIOA->MODER    &= ~((3UL << 2*0)  );         /* PA.0 is input              */
+  GPIOA->OSPEEDR  &= ~((3UL << 2*0)  );         /* PA.0 is 50MHz Fast Speed   */
+  GPIOA->OSPEEDR  |=  ((2UL << 2*0)  ); 
+  GPIOA->PUPDR    &= ~((3UL << 2*0)  );         /* PA.0 is no Pull up         */
+}
 
 void show_Basic_Infor(void)
 {
@@ -32,10 +45,6 @@ void show_Basic_Infor(void)
     }while(recv != 27);
 }
 
-void init_Main_Menu(void)
-{
-    
-}
 /*----------------------------------------------------------------------------*
 **                               MAIN FUNCTION                                *
 *----------------------------------------------------------------------------*/
@@ -63,7 +72,9 @@ int main()
 
     UART_Init(9600);
     LED_Init();
-    init_Main_Menu();
+    mySPI_Init(SPI_Mode_Master);
+    BTN_Init();
+    
     UART_Send_String_data(main_menu);
     while(1)
     {
@@ -92,7 +103,7 @@ int main()
                     break;
                     
                     case (int)'4':
-                        
+                        execute_Advance_LED_Function();
                     break;
                     
                     case (int)'5':
