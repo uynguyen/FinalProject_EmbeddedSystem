@@ -22,7 +22,7 @@
 
 extern void mySPI_Init(uint16_t);
 extern uint8_t mySPIx_GetData();
-extern void mySPIx_SendData(uint8_t, uint8_t);
+extern void mySPIx_SendData(uint8_t);
 
 
 

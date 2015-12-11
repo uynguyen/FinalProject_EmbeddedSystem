@@ -19,8 +19,9 @@
 #include <string.h>
 #include "AdvanceLED.h"
 #include "SPI.h"
-volatile LED_COLOR led_start;
-volatile LED_DIRECTION led_direction;
+volatile int32_t LED_index = 0;
+volatile LED_DIRECTION led_direction = CLOCKWISE;
+volatile LED_INDEX led_array[4] = { Green_LED, Orange_LED, Red_LED, Blue_LED};
 void send_Advance_LED_Menu(void)
 {
     char simple_LED_menu[200];
@@ -49,21 +50,21 @@ void Set_led()
     switch(led)
     {
         case 'r':
-            led_start = RED_LED;
+            LED_index = Red_LED;
             break;
         
         case 'g':
-            led_start = GREEN_LED;
+            LED_index = Green_LED ;
             break;
         case 'o':
-            led_start = ORANGE_LED;
+            LED_index = Orange_LED ;
             break;
         case 'b':
-            led_start = BLUE_LED;
+            LED_index = Blue_LED;
             break;
         
         default:
-            led_start = RED_LED;
+            LED_index = Red_LED ;
             break;
     }
     
@@ -75,6 +76,23 @@ void Set_led()
 uint32_t BTN_Get(void) {
     return (GPIOA->IDR & (1UL << 0));
 }
+
+volatile uint32_t msTicks;
+
+void SysTick_Handler (void) //Enter here every 1 ms
+{
+    msTicks++;
+}
+
+//-------------------------------
+void Delay(uint32_t dlyTicks)
+{
+    uint32_t curTicks;
+
+    curTicks = msTicks;
+    while ((msTicks - curTicks) < dlyTicks);
+}
+
 
 void Set_direction()
 {
@@ -90,11 +108,24 @@ void Set_direction()
 
     switch(direction)
     {
-        case '0':
+        case 'c':
+            if(led_direction == ANTICLOCKWISE)
+            {
+                LED_index += 2;
+                if(LED_index  >= LED_NUM )
+                    LED_index = 0;
+            }
             led_direction = CLOCKWISE;
+            
             break;
         
-        case '1':
+        case 'a':
+            if(led_direction == CLOCKWISE)
+            {
+                LED_index-=2;
+                if(LED_index  <= 0 )
+                    LED_index = LED_NUM - 1;
+            }
             led_direction = ANTICLOCKWISE;
             break;
 
@@ -106,26 +137,34 @@ void Set_direction()
     
 }
 void Run()
-{
+{   
     uint32_t btns = 0;
-    uint8_t data = 0;
+
     char revc = 0;
-        do { 
-            /* Loop forever               */
-            btns = BTN_Get();
-            if (btns != (1UL << 0)) {
-                All_LED_Off();
-            }
-            else
+    UART_Send_String_data("\r\n----------------------");
+    UART_Send_String_data("\r\nc. Running.....");
+    do { 
+        revc = UART_PopData();
+        btns = BTN_Get();
+        if (btns == (1UL << 0)) 
+        {
+            mySPIx_SendData(led_array[LED_index]); 
+           
+            Delay(200);
+            if(led_direction == CLOCKWISE)
             {
-                mySPIx_SendData(0x20, data); 
-                LED_On(data);
-               // Delay(200);
-                data++;
-                if(data == LED_NUM)
-                    data = 0;
+                
+                LED_index++;
+                if(LED_index  == LED_NUM )
+                    LED_index = 0;
             }
-            }while(revc != 27);
+            else{
+                LED_index--;
+                if(LED_index < 0)
+                    LED_index = LED_NUM - 1;
+            }
+        }
+    }while(revc != 27);
 }
 void execute_Advance_LED_Function(void)
 {

@@ -10,7 +10,7 @@
 /*----------------------------------------------------------------------------*
 **                               DEFINE VARIABLE                              *
 *----------------------------------------------------------------------------*/
-
+#define     MASTER
 /*----------------------------------------------------------------------------
   Function that initializes Button pins
  *----------------------------------------------------------------------------*/
@@ -50,6 +50,7 @@ void show_Basic_Infor(void)
 *----------------------------------------------------------------------------*/
 int main()
 {
+    #ifdef MASTER
     char recv = 0;
     char isSpecialKey = 0;
     char main_menu[100];
@@ -61,6 +62,10 @@ int main()
     char *option_5 = "\r\n5.Audio.";
     char *input_your_choice = "\r\nInput your choice --> ";
     char *esc_string = "\r\nESC: return previous menu.";
+     SystemCoreClockUpdate();                      /* Get Core Clock Frequency   */
+    if (SysTick_Config(SystemCoreClock / 1000)) { /* SysTick 1 msec interrupts  */
+      while (1);                                  /* Capture error              */
+    }
     strcpy(main_menu, greeting); 
     strcat(main_menu, option_1);
     strcat(main_menu, option_2);
@@ -118,6 +123,17 @@ int main()
             
         
     }
+    #else
+        LED_Init();
+        mySPI_Init(SPI_Mode_Slave);
+        All_LED_On();
+        while(1){
+             LED_INDEX data = (LED_INDEX) mySPIx_GetData();
+             All_LED_Off();
+            
+             LED_On(data);
+       }
+    #endif
     return 1;
 }
 

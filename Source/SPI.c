@@ -30,21 +30,14 @@ uint8_t mySPIx_GetData(){
 **Func return:                                                                *
 **      None                                                                  *
  *----------------------------------------------------------------------------*/
-void mySPIx_SendData(uint8_t adress, uint8_t data){
+void mySPIx_SendData(uint8_t data){
 
     GPIO_ResetBits(GPIOE, GPIO_Pin_3);
-    
-    while(!SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_TXE));  //transmit buffer empty?
-    SPI_I2S_SendData(SPI1, adress);
-    while(!SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_RXNE)); //data received?
-    SPI_I2S_ReceiveData(SPI1);
-    
+       
     while(!SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_TXE));  //transmit buffer empty?
     SPI_I2S_SendData(SPI1, data);
-    while(!SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_RXNE)); //data received?
-    SPI_I2S_ReceiveData(SPI1);
-    
-    GPIO_SetBits(GPIOE, GPIO_Pin_3);
+    //wait for spi send complete
+    while(SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_TXE) == RESET);
 }
 /*----------------------------------------------------------------------------*
 **Func name: mySPI_Init                                                       *

@@ -61,35 +61,35 @@ void execute_Simple_LED_Function(void)
         switch(recv)
         {
             case (int)'a':
-                LED_On(GREEN_LED);
+                LED_On(Green_LED);
             break;
             
             case (int)'b':
-                LED_Off(GREEN_LED);
+                LED_Off(Green_LED);
             break;
             
             case (int)'c':
-                LED_On(ORANGE_LED);
+                LED_On(Orange_LED);
             break;
             
             case (int)'d':
-                LED_Off(ORANGE_LED);
+                LED_Off(Orange_LED);
             break;
             
             case (int)'e':
-                LED_On(RED_LED);
+                LED_On(Red_LED);
             break;
             
             case (int)'f':
-                LED_Off(RED_LED);
+                LED_Off(Red_LED);
             break;
             
             case (int)'g':
-                LED_On(BLUE_LED);
+                LED_On(Blue_LED);
             break;
             
             case (int)'h':
-                LED_Off(BLUE_LED);
+                LED_Off(Blue_LED);
             break;
             
             case (int)'i':

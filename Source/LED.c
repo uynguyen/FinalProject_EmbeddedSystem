@@ -34,19 +34,31 @@ void LED_Init (void) {
 /*----------------------------------------------------------------------------
   Function that turns on requested LED
  *----------------------------------------------------------------------------*/
-void LED_On (LED_COLOR led) {
-    GPIO_SetBits(GPIOD, led);
-}
-
-/*----------------------------------------------------------------------------
-  Function that turns on requested LED
- *----------------------------------------------------------------------------*/
-void LED_Double_On (unsigned int num) {
-
-    unsigned int condition = LED_NUM - 2;
-    if (num < condition) {
-        GPIOD->BSRRL = led_mask[num] | led_mask[num + 2];
+void LED_On (LED_INDEX led) {
+    LED_COLOR led_color;
+    switch(led)
+    {
+        case Green_LED:
+            led_color = GREEN_LED;
+        break;
+        
+        case Orange_LED:
+            led_color = ORANGE_LED;
+        break;
+        
+        case Red_LED: 
+            led_color = RED_LED;
+        break;
+        
+        case Blue_LED:
+            led_color = BLUE_LED;
+        break;
+        
+        default:
+            break;
+            
     }
+    GPIO_SetBits(GPIOD, led_color);
 }
 
 /*----------------------------------------------------------------------------
@@ -59,19 +71,33 @@ void All_LED_On (void) {
 /*----------------------------------------------------------------------------
   Function that turns off requested LED
  *----------------------------------------------------------------------------*/
-void LED_Off (LED_COLOR led) {
-    GPIO_ResetBits(GPIOD, led);
+void LED_Off (LED_INDEX led) {
+    LED_COLOR led_color;
+    switch(led)
+    {
+        case Green_LED:
+            led_color = GREEN_LED;
+        break;
+        
+        case Orange_LED:
+            led_color = ORANGE_LED;
+        break;
+        
+        case Red_LED: 
+            led_color = RED_LED;
+        break;
+        
+        case Blue_LED:
+            led_color = BLUE_LED;
+        break;
+        
+        default:
+            break;
+            
+    }
+    GPIO_ResetBits(GPIOD, led_color);
 }
 
-/*----------------------------------------------------------------------------
-  Function that turns off requested LED
- *----------------------------------------------------------------------------*/
-void LED_Double_Off (unsigned int num) {
-    unsigned int condition = LED_NUM - 2;
-    if (num < condition) {
-        GPIOD->BSRRH = led_mask[num] | led_mask[num + 2];
-    }
-}
 /*----------------------------------------------------------------------------
   Function that turns off requested LED
  *----------------------------------------------------------------------------*/
@@ -80,17 +106,3 @@ void All_LED_Off (void) {
 }
 
 
-/*----------------------------------------------------------------------------
-  Function that outputs value to LEDs
- *----------------------------------------------------------------------------*/
-void LED_Out(unsigned int value) {
-    int i;
-    for (i = 0; i < LED_NUM; i++) {
-        if (value & (1 << i)) {
-            LED_On(i);
-        }
-        else {
-            LED_Off(i);
-        }
-    }
-}
