@@ -7,6 +7,7 @@
 #include "Operation.h"
 #include "AdvanceLED.h"
 #include "SPI.h"
+#include "audio.h"
 /*----------------------------------------------------------------------------*
 **                               DEFINE VARIABLE                              *
 *----------------------------------------------------------------------------*/
@@ -50,6 +51,10 @@ void show_Basic_Infor(void)
 *----------------------------------------------------------------------------*/
 int main()
 {
+    SystemCoreClockUpdate();                      /* Get Core Clock Frequency   */
+    if (SysTick_Config(SystemCoreClock / 1000)) { /* SysTick 1 msec interrupts  */
+      while (1);                                  /* Capture error              */
+    }
     #ifdef MASTER
     char recv = 0;
     char isSpecialKey = 0;
@@ -62,10 +67,7 @@ int main()
     char *option_5 = "\r\n5.Audio.";
     char *input_your_choice = "\r\nInput your choice --> ";
     char *esc_string = "\r\nESC: return previous menu.";
-     SystemCoreClockUpdate();                      /* Get Core Clock Frequency   */
-    if (SysTick_Config(SystemCoreClock / 1000)) { /* SysTick 1 msec interrupts  */
-      while (1);                                  /* Capture error              */
-    }
+
     strcpy(main_menu, greeting); 
     strcat(main_menu, option_1);
     strcat(main_menu, option_2);
