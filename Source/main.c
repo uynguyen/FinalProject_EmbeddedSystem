@@ -3,6 +3,7 @@
 #include "Uart.h"
 #include <string.h>
 #include "Led.h"
+#include "SimpleLED.h"
 /*----------------------------------------------------------------------------*
 **                               DEFINE VARIABLE                              *
 *----------------------------------------------------------------------------*/
@@ -20,7 +21,7 @@ void show_Basic_Infor(void)
     strcat(final_string, fullname_student1);
     strcat(final_string, id_student2);
     strcat(final_string, fullname_student2);
-    UART_UpdateBuffer(final_string);
+    UART_Send_String_data(final_string);
     do
     {
         do
@@ -34,6 +35,9 @@ void init_Main_Menu(void)
 {
     
 }
+/*----------------------------------------------------------------------------*
+**                               MAIN FUNCTION                                *
+*----------------------------------------------------------------------------*/
 int main()
 {
     char recv = 0;
@@ -59,13 +63,12 @@ int main()
     UART_Init(9600);
     LED_Init();
     init_Main_Menu();
-    UART_UpdateBuffer(main_menu);
+    UART_Send_String_data(main_menu);
     while(1)
     {
         // UART currently transfer data, don't access it.
         
-        if(!UART_IsTransfering())
-        {
+
             recv = UART_PopData();
     
             if(recv != 0)
@@ -74,146 +77,34 @@ int main()
                 switch(recv & 0xff)
                 {
                     case (int)'1':
-                        show_Basic_Infor();
-                        UART_Send_String_data("\033[2J");
-                        UART_UpdateBuffer(main_menu);
+                       show_Basic_Infor();
+                      
                     break;
                     
                     case (int)'2':
                     break;
                     
                     case (int)'3':
+                        execute_Simple_LED_Function();
+
                     break;
                     
                     case (int)'4':
-                        execute_Simple_LED_function();
-                        UART_Send_String_data("\033[2J");
-                        UART_UpdateBuffer(main_menu);
+                        
                     break;
                     
                     case (int)'5':
                     break;
                     
-                    
-                    
-                    
-                    
                     default:
-                        show_Basic_Infor();
-                        All_LED_On();
                     break;
                 }
+                UART_Send_String_data("\033[2J");
+                UART_Send_String_data(main_menu);
             }
-        }
+            
+        
     }
+    return 1;
 }
-//    char recv = 0;
-//    char isSpecialKey = 0;
 
-
-//    UART_Init(9600);
-//    LED_Init();
-//    init_Main_Menu();
-//    UART_UpdateBuffer(main_menu);
-
-//    while(1)
-//    {
-//        // UART currently transfer data, don't access it.
-//        if(!UART_IsTransfering())
-//        {
-//          
-//            recv = UART_PopData();
-//    
-//            if(recv != 0)
-//            {
-//                switch(recv & 0xff)
-//                {
-//                    case (int)'1':
-//                        show_Basic_Infor();
-//                        
-//                    break;
-//                    
-//                    case (int)'2':
-//                    break;
-//                    
-//                    case (int)'3':
-//                    break;
-//                    
-//                    case (int)'4':
-//                        //send_Simple_LED_Menu();
-//                        //recv = UART_PopData();
-//                        
-//                            
-//                        
-//                    break;
-//                    
-//                    case (int)'5':
-//                    break;
-//                    
-//                    case (int)'a':
-//                    break;
-//                    
-//                    case (int)'b':
-//                    break;
-//                    
-//                    case (int)'c':
-//                    break;
-//                    
-//                    case (int)'d':
-//                    break;
-//                    
-//                    case (int)'e':
-//                    break;
-//                    
-//                    case (int)'f':
-//                    break;
-//                    
-//                    case (int)'g':
-//                    break;
-//                    
-//                    case (int)'h':
-//                    break;
-//                    
-//                    case (int)'j':
-//                    break;
-//                    
-//                    
-//                    case 27:
-//                        UART_UpdateBuffer(main_menu);
-//                        
-//                    break;
-//                    default:
-//                        show_Basic_Infor();
-//                        All_LED_On();
-//                    break;
-//                }
-//                
-//                if(isSpecialKey)
-//                {
-//                    isSpecialKey = 0;
-//                    continue;
-//                }
-//                else
-//                {
-//                    if(recv >= 32 && recv <= 126) // Printable character.
-//                    {
-//                        szBuffer[0] = recv;
-//                        strcat(szBuffer, sz2);
-//                        UART_UpdateBuffer(szBuffer);
-//                        
-//                        
-//                        
-//                    }
-//                    else if(recv == '\r')
-//                    {
-//                        UART_UpdateBuffer(sz4); // Print "<ENTER>\r\n" to terminal.
-//                    }
-//                    else // Special character.
-//                    {
-//                        isSpecialKey = 1;
-//                        UART_UpdateBuffer(sz3);
-//                    }
-//                }
- //           }
-//        }
- //   }

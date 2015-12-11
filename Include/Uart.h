@@ -24,7 +24,7 @@ extern void UART_Send_String_data(char *);
 extern void UART_Send_Char_data(char);
 
 /* Interrupt functions ****************************************************/
-extern void UART_UpdateBuffer(volatile char[]);
+
 extern char UART_PopData(void);
-extern char UART_IsTransfering(void);
+
 #endif

@@ -45,7 +45,7 @@ void send_Simple_LED_Menu(void)
     UART_Send_String_data(simple_LED_menu);
     
 }
-void execute_Simple_LED_function(void)
+void execute_Simple_LED_Function(void)
 {
     char recv = 0;
     UART_Send_String_data("\033[2J");

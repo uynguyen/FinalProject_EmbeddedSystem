@@ -24,7 +24,6 @@ volatile char                                   g_szBuffer[64];
 volatile int                                    g_idx = 0;
 volatile int                                    g_iMaxCount = 64;
 volatile char                                   g_iLen = 0;
-volatile char                                   g_isTransfering = 0;
 volatile char                                   g_queue[10];
 volatile char                                   g_queueCapacity = 10;
 volatile char                                   g_queueSize = 0;
@@ -40,7 +39,7 @@ volatile char                                   g_queueSize = 0;
 void UART_Init(uint32_t baudrate){
     GPIO_InitTypeDef GPIO_InitStruct;
     USART_InitTypeDef USART_InitStruct;
-    NVIC_InitTypeDef NVIC_InitStruct;	
+    NVIC_InitTypeDef NVIC_InitStruct;
     
     // Step 1
     RCC_APB1PeriphClockCmd(UART_RCC_APB1Periph_USART, ENABLE);
@@ -168,29 +167,6 @@ void UART_ClearBuffer()
     g_iLen = 0;
 }
 
-/*----------------------------------------------------------------------------*
-**Func name: UART_UpdateBuffer                                                *
-**Execute: update data buffer                                                 *
-**Func params:                                                                *
-**              szNewBuffer:    New data buffer                               *
-**Func return: None                                                           *
- *----------------------------------------------------------------------------*/
-void UART_UpdateBuffer(volatile char szNewBuffer[])
-{
-    int i = 0;
-    g_isTransfering = 1;
-    UART_ClearBuffer();
-    
-    for(; szNewBuffer[i] != 0; i++)
-    {
-        g_szBuffer[i] = szNewBuffer[i];
-    }
-    
-    g_iLen = i;
-    
-    // Ready to send data.
-    UART_ITConfigTXE(ENABLE);
-}
 
 /*----------------------------------------------------------------------------*
 **Func name: UART_PushData                                                    *
@@ -233,17 +209,7 @@ char UART_PopData(void)
     
     return ret;
 }
-/*----------------------------------------------------------------------------*
-**Func name: UART_IsTransfering                                               *
-**Execute: Check if UART is transfering                                       *
-**Func params: None                                                           *
-**Func return: None                                                           *
-**                  char:     Character is popped from buffer                 *
- *----------------------------------------------------------------------------*/
-char UART_IsTransfering(void)
-{
-    return g_isTransfering;
-}
+
 /*------------------------- IT HANDLER ------------------------- */
 /*----------------------------------------------------------------------------*
 **Func name: USART3_IRQHandler                                                *
