@@ -5,6 +5,8 @@
 #include "stm32f4xx.h"
 #include "system_stm32f4xx.h"
 #include <stddef.h>
+#include "MyQueue.h"
+#include <stdlib.h>
 /*----------------------------------------------------------------------------*
  *                      Define variables                                      *
  *----------------------------------------------------------------------------*/
@@ -20,13 +22,10 @@
 #define UART_NVIC_IRQChannel                    USART3_IRQn
 
     
-volatile char                                   g_szBuffer[64];
-volatile int                                    g_idx = 0;
-volatile int                                    g_iMaxCount = 64;
-volatile char                                   g_iLen = 0;
 volatile char                                   g_queue[10];
 volatile char                                   g_queueCapacity = 10;
 volatile char                                   g_queueSize = 0;
+
 
 /*-------------------------------INIT FUNCTIONS--------------------------------------------*/
 
@@ -79,7 +78,13 @@ void UART_Init(uint32_t baudrate){
     // Step 7
     USART_Cmd(UART_USART, ENABLE);
     
+    
+   
+    
+    
 }
+
+
 
 /*------------------------------------ END INIT FUNCTIONS ----------------------- */
 
@@ -150,25 +155,6 @@ uint8_t UART_Receive_Data()
 
 
 /*----------------------------------------------------------------------------*
-**Func name: UART_ClearBuffer                                                 *
-**Execute: Clear data buffer                                                  *
-**Func params: None                                                           *
-**Func return: None                                                           *
- *----------------------------------------------------------------------------*/
-void UART_ClearBuffer()
-{
-    int i = 0;
-    for(; i < g_iMaxCount; i++)
-    {
-        g_szBuffer[i] = 0;
-    }
-    
-    g_idx = 0;
-    g_iLen = 0;
-}
-
-
-/*----------------------------------------------------------------------------*
 **Func name: UART_PushData                                                    *
 **Execute: Push a character data into buffer                                  *
 **Func params:                                                                *
@@ -182,6 +168,7 @@ void UART_PushData(char ch)
         UART_PopData();
     }
     g_queue[g_queueSize++] = ch;
+ 
 }
 
 /*----------------------------------------------------------------------------*
@@ -193,6 +180,7 @@ void UART_PushData(char ch)
  *----------------------------------------------------------------------------*/
 char UART_PopData(void)
 {
+ 
     char ret;
     int i = 1;
     if(g_queueSize == 0)

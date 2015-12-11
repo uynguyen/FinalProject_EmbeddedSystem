@@ -4,6 +4,7 @@
 #include <string.h>
 #include "Led.h"
 #include "SimpleLED.h"
+#include "Operation.h"
 /*----------------------------------------------------------------------------*
 **                               DEFINE VARIABLE                              *
 *----------------------------------------------------------------------------*/
@@ -82,6 +83,7 @@ int main()
                     break;
                     
                     case (int)'2':
+                        execute_Basic_Operation_Function();
                     break;
                     
                     case (int)'3':

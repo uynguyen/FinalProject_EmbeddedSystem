@@ -20,6 +20,7 @@
  *                      Define funcs                                          *
  *----------------------------------------------------------------------------*/
 extern void UART_Init(uint32_t);
+    
 extern void UART_Send_String_data(char *);
 extern void UART_Send_Char_data(char);
 
