@@ -455,6 +455,11 @@
               <FileType>1</FileType>
               <FilePath>.\AdvanceLED.c</FilePath>
             </File>
+            <File>
+              <FileName>Operation.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Source\Operation.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
