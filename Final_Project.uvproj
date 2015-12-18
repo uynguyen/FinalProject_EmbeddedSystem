@@ -362,7 +362,7 @@
               <MiscControls></MiscControls>
               <Define>USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>.\CMSIS\Include;.\Include</IncludePath>
+              <IncludePath>.\CMSIS\Include;.\Include;.\Audio\inc;.\Audio\STM32F4-Discovery</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -460,6 +460,21 @@
               <FileType>1</FileType>
               <FilePath>.\Source\Operation.c</FilePath>
             </File>
+            <File>
+              <FileName>audio.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Source\audio.c</FilePath>
+            </File>
+            <File>
+              <FileName>MyStack.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Source\MyStack.c</FilePath>
+            </File>
+            <File>
+              <FileName>linked_list.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Source\linked_list.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -494,6 +509,66 @@
               <FileName>stm32f4xx_usart.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\CMSIS\stm32f4xx_usart.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f4xx_syscfg.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\CMSIS\stm32f4xx_syscfg.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f4xx_i2c.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\CMSIS\stm32f4xx_i2c.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f4xx_dac.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\CMSIS\stm32f4xx_dac.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f4xx_dma.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\CMSIS\stm32f4xx_dma.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f4xx_exti.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\CMSIS\stm32f4xx_exti.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>STM32F4-Discovery</GroupName>
+          <Files>
+            <File>
+              <FileName>stm32f4_discovery.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Audio\STM32F4-Discovery\stm32f4_discovery.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f4_discovery_audio_codec.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Audio\STM32F4-Discovery\stm32f4_discovery_audio_codec.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f4_discovery_lis302dl.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Audio\STM32F4-Discovery\stm32f4_discovery_lis302dl.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>AudioModule</GroupName>
+          <Files>
+            <File>
+              <FileName>waveplayer.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Audio\src\waveplayer.c</FilePath>
+            </File>
+            <File>
+              <FileName>audio_sample.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\AudioFiles\audio_sample.c</FilePath>
             </File>
           </Files>
         </Group>

@@ -9,6 +9,7 @@
 #include "SPI.h"
 #include "audio.h"
 #include <stdlib.h>
+
 /*----------------------------------------------------------------------------*
 **                               DEFINE VARIABLE                              *
 *----------------------------------------------------------------------------*/
@@ -52,7 +53,6 @@ void show_Basic_Infor(void)
 *----------------------------------------------------------------------------*/
 int main()
 {
-
     #ifdef MASTER
     char recv = 0;
     char isSpecialKey = 0;
@@ -86,44 +86,39 @@ int main()
     UART_Send_String_data(main_menu);
     while(1)
     {
-        
-
-            recv = UART_PopData();
-    
-            if(recv != 0)
-            {
-                
-                switch(recv & 0xff)
-                {
-                    case (int)'1':
-                       show_Basic_Infor();
-                      
-                    break;
-                    
-                    case (int)'2':
-                        execute_Basic_Operation_Function();
-                    break;
-                    
-                    case (int)'3':
-                        execute_Simple_LED_Function();
-
-                    break;
-                    
-                    case (int)'4':
-                        execute_Advance_LED_Function();
-                    break;
-                    
-                    case (int)'5':
-                    break;
-                    
-                    default:
-                    break;
-                }
-                UART_Send_String_data("\033[2J");
-                UART_Send_String_data(main_menu);
-            }
+        recv = UART_PopData();
+        if(recv != 0)
+        {
             
+            switch(recv & 0xff)
+            {
+                case (int)'1':
+                   show_Basic_Infor();
+                break;
+                
+                case (int)'2':
+                    execute_Basic_Operation_Function();
+                break;
+                
+                case (int)'3':
+                    execute_Simple_LED_Function();
         
+                break;
+                
+                case (int)'4':
+                    execute_Advance_LED_Function();
+                break;
+                
+                case (int)'5':
+                    execute_Audio_Function();
+                break;
+                
+                default:
+                break;
+            }
+            UART_Send_String_data("\033[2J");
+            UART_Send_String_data(main_menu);
+        }
     }
     #else
         LED_Init();
