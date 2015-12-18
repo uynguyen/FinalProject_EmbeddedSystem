@@ -1,3 +1,16 @@
+/**
+  ******************************************************************************
+  * @file    Uart.c
+  * @author  1212505 - 1212513
+  * @version V1.0.0
+  * @brief   This file provides firmware functions to execute Uart functions of final project 
+  ******************************************************************************
+**/
+
+
+/*----------------------------------------------------------------------------*
+ *                      Include zone                                          *
+ *----------------------------------------------------------------------------*/
 #include <stdint.h>
 #include "uart.h"
 #include "stm32f4xx_usart.h"
@@ -6,8 +19,9 @@
 #include "system_stm32f4xx.h"
 #include <stddef.h>
 #include <stdlib.h>
+
 /*----------------------------------------------------------------------------*
- *                      Define variables                                      *
+ *                      Define Macro                                          *
  *----------------------------------------------------------------------------*/
 #define UART_PREEMPTION_PRIORITY                1
 #define UART_USART                              USART3
@@ -20,7 +34,9 @@
 #define UART_GPIO_Pin                           (GPIO_Pin_10 | GPIO_Pin_11)
 #define UART_NVIC_IRQChannel                    USART3_IRQn
 
-    
+/*----------------------------------------------------------------------------*
+ *                      Define variables                                      *
+ *----------------------------------------------------------------------------*/
 volatile char                                   g_queue[10];
 volatile char                                   g_queueCapacity = 10;
 volatile char                                   g_queueSize = 0;
@@ -76,11 +92,7 @@ void UART_Init(uint32_t baudrate){
     
     // Step 7
     USART_Cmd(UART_USART, ENABLE);
-    
-    
-   
-    
-    
+
 }
 
 
@@ -206,7 +218,6 @@ char UART_PopData(void)
  *----------------------------------------------------------------------------*/
 void USART3_IRQHandler(void)
 {
-    
     // Has data to receive.
     if(RESET != USART_GetITStatus(UART_USART, USART_IT_RXNE))
     {

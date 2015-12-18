@@ -43,7 +43,7 @@ void show_Basic_Infor(void)
     {
         do
         {
-           recv = UART_PopData();
+            recv = UART_PopData();
         }while (recv == 0);
     }while(recv != 27);
 }

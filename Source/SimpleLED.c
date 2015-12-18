@@ -1,22 +1,23 @@
-/*----------------------------------------------------------------------------
- * Name:    Simple_LED.c
- * Purpose: low level LED functions
- * Note(s):
- *----------------------------------------------------------------------------
- * This file is part of the uVision/ARM development tools.
- * This software may only be used under the terms of a valid, current,
- * end user licence from KEIL for a compatible version of KEIL software
- * development tools. Nothing else gives you the right to use this software.
- *
- * This software is supplied "AS IS" without warranties of any kind.
- *
- * Copyright (c) 2011 Keil - An ARM Company. All rights reserved.
- *----------------------------------------------------------------------------*/
+/**
+  ******************************************************************************
+  * @file    SimpleLED.c
+  * @author  1212505 - 1212513
+  * @version V1.0.0
+  * @brief   This file provides firmware functions to execute Simple LED of final project 
+  ******************************************************************************
+**/
 
 #include "STM32F4xx.h"
 #include "LED.h"
 #include "Uart.h"
 #include <string.h>
+#include "SimpleLED.h"
+/*----------------------------------------------------------------------------*
+**Func name: send_Simple_LED_Menu                                             *
+**Execute: Send simple LED menu to HiberTerminal                              *
+**Func params: None                                                           *
+**Func return: None                                                           *
+ *----------------------------------------------------------------------------*/
 void send_Simple_LED_Menu(void)
 {
     char simple_LED_menu[200];
@@ -45,6 +46,13 @@ void send_Simple_LED_Menu(void)
     UART_Send_String_data(simple_LED_menu);
     
 }
+
+/*----------------------------------------------------------------------------*
+**Func name: execute_Simple_LED_Function                                      *
+**Execute: Handler simple LED function                                        *
+**Func params: None                                                           *
+**Func return: None                                                           *
+ *----------------------------------------------------------------------------*/
 void execute_Simple_LED_Function(void)
 {
     char recv = 0;
