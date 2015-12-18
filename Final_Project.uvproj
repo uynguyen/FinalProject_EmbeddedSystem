@@ -451,11 +451,6 @@
               <FilePath>.\Source\SimpleLED.c</FilePath>
             </File>
             <File>
-              <FileName>AdvanceLED.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\AdvanceLED.c</FilePath>
-            </File>
-            <File>
               <FileName>Operation.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\Source\Operation.c</FilePath>
@@ -466,14 +461,9 @@
               <FilePath>.\Source\audio.c</FilePath>
             </File>
             <File>
-              <FileName>MyStack.c</FileName>
+              <FileName>AdvanceLED.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\Source\MyStack.c</FilePath>
-            </File>
-            <File>
-              <FileName>linked_list.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Source\linked_list.c</FilePath>
+              <FilePath>.\Source\AdvanceLED.c</FilePath>
             </File>
           </Files>
         </Group>

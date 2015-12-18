@@ -26,7 +26,7 @@
 
 volatile int32_t LED_index = 0;
 volatile LED_DIRECTION led_direction = CLOCKWISE;
-volatile LED_INDEX led_array[4] = { Green_LED, Orange_LED, Red_LED, Blue_LED};
+volatile LED_INDEX led_array[] = { Green_LED, Orange_LED, Red_LED, Blue_LED, None_LED};
 volatile uint32_t msTicks;
 
 /*----------------------------------------------------------------------------*
@@ -210,6 +210,7 @@ void Run()
             }
         }
     }while(revc != 27);
+   
 }
 
 /*----------------------------------------------------------------------------*
@@ -250,5 +251,6 @@ void execute_Advance_LED_Function(void)
          }
         
     }while(recv != 27);
+    mySPIx_SendData(led_array[None_LED]); 
     
 }

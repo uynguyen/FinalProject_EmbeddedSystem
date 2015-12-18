@@ -58,6 +58,7 @@ void show_Basic_Infor(void)
     char *fullname_student1 = "\r\nFull name: Nguyen Long Uy";
     char *id_student2 = "\r\nID: 1212513";
     char *fullname_student2 = "\r\nFull name: Le Quoc Vin";
+    char *esc_string = "\r\nESC: return previous menu.";
     char final_string[100];
     UART_Send_String_data("\r\n------------------------");
     UART_Send_String_data(student_info_title);
@@ -65,6 +66,7 @@ void show_Basic_Infor(void)
     strcat(final_string, fullname_student1);
     strcat(final_string, id_student2);
     strcat(final_string, fullname_student2);
+    strcat(final_string, esc_string);
     UART_Send_String_data(final_string);
     do
     {
@@ -193,8 +195,12 @@ int main()
             if (spi1_get_status() == RECEIVE_COMPLETE)
             {
                 spi_receive_data = spi1_get_receive_data();     
-                All_LED_Off();               
-                LED_On((LED_INDEX)spi_receive_data);
+                All_LED_Off();   
+                if(spi_receive_data != None_LED)
+                {
+                    LED_On((LED_INDEX)spi_receive_data);
+                }                    
+                
             }
        }
     #endif

@@ -37,10 +37,14 @@
 /*----------------------------------------------------------------------------*
  *                      Define variables                                      *
  *----------------------------------------------------------------------------*/
-volatile char                                   g_queue[10];
-volatile char                                   g_queueCapacity = 10;
-volatile char                                   g_queueSize = 0;
-
+volatile char            g_szBuffer[255];
+volatile int             g_idx = 0;
+volatile int             g_iMaxCount = 255;
+volatile char            g_iLen = 0;
+volatile char            g_isTransfering = 0;
+volatile char            g_queue[10];
+volatile char            g_queueCapacity = 10;
+volatile char            g_queueSize = 0;
 
 /*-------------------------------INIT FUNCTIONS--------------------------------------------*/
 
@@ -132,24 +136,13 @@ void UART_ITConfigRXNE(FunctionalState newState)
 **Func return: None                                                           *
  *----------------------------------------------------------------------------*/
 void UART_Send_String_data(char *data) {
-    int32_t count = 0;
-    char character = data[count++];
-       
-    while (character)
-    {
-        while (USART_GetFlagStatus(UART_USART, USART_FLAG_TXE) != SET)
-        {
-            //do nothing here;
-        }
-            
-        UART_Send_Char_data(character);
-        character = data[count++];
-    } 
-}
-void UART_Send_Char_data(char ch) {
-            
-    USART_SendData(UART_USART, ch);
-     
+
+    while(UART_IsTransfering()){
+        // IF UART is trasferring then do nothing
+    }
+
+    UART_UpdateBuffer(data);
+
 }
 
 /*----------------------------------------------------------------------------*
@@ -210,6 +203,82 @@ char UART_PopData(void)
 }
 
 /*------------------------- IT HANDLER ------------------------- */
+
+
+/*----------------------------------------------------------------------------*
+**Func name: UART_ITSend                                                      *
+**Execute: UART Send data by interrupt                                        *
+**Func params:                                                                *
+**             uint8_t ch: Character is sent                                  *
+**Func return: None                                                           *
+**             None                                                           *
+ *----------------------------------------------------------------------------*/
+void UART_ITSend(uint8_t ch)
+{
+    USART_SendData(UART_USART, ch);
+}
+
+/*----------------------------------------------------------------------------*
+**Func name: UART_ClearBuffer                                                 *
+**Execute: UART Clear Buffer                                                  *
+**Func params:                                                                *
+**             None                                                           *
+**Func return:                                                                *
+**             None                                                           *
+ *----------------------------------------------------------------------------*/
+void UART_ClearBuffer()
+{
+    int i = 0;
+    for(; i < g_iMaxCount; i++)
+    {
+        g_szBuffer[i] = 0;
+    }
+    
+    g_idx = 0;
+    g_iLen = 0;
+}
+
+/*----------------------------------------------------------------------------*
+**Func name: UART_UpdateBuffer                                                *
+**Execute: UART update sended buffer                                          *
+**Func params:                                                                *
+**             char szNewBuffer: new buffer is sent                           *
+**Func return:                                                                *
+**             None                                                           *
+ *----------------------------------------------------------------------------*/
+void UART_UpdateBuffer(volatile char szNewBuffer[])
+    
+{
+    int i = 0;
+    g_isTransfering = 1;
+    UART_ClearBuffer();
+    
+    for(; szNewBuffer[i] != 0; i++)
+    {
+        g_szBuffer[i] = szNewBuffer[i];
+    }
+    
+    g_iLen = i;
+
+    // Ready to send data.
+    UART_ITConfigTXE(ENABLE);
+}
+
+
+/*----------------------------------------------------------------------------*
+**Func name: UART_IsTransfering                                               *
+**Execute: Check if UART is trasfering                                        *
+**Func params:                                                                *
+**             None                                                           *
+**Func return:                                                                *
+**             None                                                           *
+ *----------------------------------------------------------------------------*/
+char UART_IsTransfering(void)
+{
+    return g_isTransfering;
+}
+
+
 /*----------------------------------------------------------------------------*
 **Func name: USART3_IRQHandler                                                *
 **Execute: Receive data and send to HT                                        *
@@ -218,6 +287,29 @@ char UART_PopData(void)
  *----------------------------------------------------------------------------*/
 void USART3_IRQHandler(void)
 {
+    // Ready to send.
+    if(RESET != USART_GetITStatus(UART_USART, USART_IT_TXE))
+    {
+        USART_ClearITPendingBit(UART_USART, USART_IT_TXE);
+        // Check whether internal queue has data.
+        if(g_idx < g_iLen)
+        {
+            UART_ITSend(g_szBuffer[g_idx]);
+            g_idx++;
+        
+            // All character sent.
+            if(g_idx >= g_iLen)
+            {
+                UART_ClearBuffer();
+
+                g_isTransfering = 0;
+                
+                // Disable TXE flag.
+                UART_ITConfigTXE(DISABLE);
+            }
+        }
+    }
+    
     // Has data to receive.
     if(RESET != USART_GetITStatus(UART_USART, USART_IT_RXNE))
     {

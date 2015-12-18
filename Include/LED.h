@@ -25,7 +25,8 @@ typedef enum {
     Green_LED = 0, 
     Orange_LED = 1, 
     Red_LED = 2, 
-    Blue_LED = 3 
+    Blue_LED = 3,
+    None_LED = 4
 } LED_INDEX;
 
 /*----------------------------------------------------------------------------*

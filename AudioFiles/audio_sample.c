@@ -40,7 +40,7 @@
      Please read the license following this link:
      http://creativecommons.org/licenses/by/3.0/us/
 */     
-#define     SLAVE
+#define     MASTER
 #ifdef MASTER
 const uint16_t AUDIO_SAMPLE[] = {
 0x4952, 0x4646, 0x4f6e, 0xf, 0x4157, 0x4556, 0x6d66, 0x2074, 0x12, 0, 0x1, 

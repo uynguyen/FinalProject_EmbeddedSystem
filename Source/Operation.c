@@ -13,6 +13,7 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <stdio.h>
 #include "stm32f4xx_usart.h"
 #include "stm32f4xx_gpio.h"
 #include "stm32f4xx.h"
@@ -109,14 +110,15 @@ bool isDigit(char char_array[MAX_SIZE_OF_DIGIT_ARRAY])
  *----------------------------------------------------------------------------*/
 char* get_Operands_From_User(int index)
 {
+    char str[1];
     char ch_digit = 0;
     bool is_exist_dot = false;
     bool is_exist_negative = false;
     uint8_t idx = 0;
     char *digit = malloc(MAX_SIZE_OF_DIGIT_ARRAY);
-
+    str[0] = index + 48;
     UART_Send_String_data("\r\nOperand  ");
-    UART_Send_Char_data(index + 48);
+    UART_Send_String_data(str);
     UART_Send_String_data(" : ");
     while(1)
     {
@@ -142,7 +144,8 @@ char* get_Operands_From_User(int index)
                     is_exist_negative = true;
                 digit[idx] = ch_digit;
                 idx++;
-                UART_Send_Char_data(ch_digit);
+                str[0] = ch_digit;
+                UART_Send_String_data(str);
             }
         }
     }

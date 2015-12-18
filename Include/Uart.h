@@ -20,9 +20,10 @@
  *                      Define funcs                                          *
  *----------------------------------------------------------------------------*/
 extern void UART_Init(uint32_t);
-    
+extern void UART_UpdateBuffer(volatile char szNewBuffer[]);
+extern void UART_ClearBuffer(void);
+extern char UART_IsTransfering(void);
 extern void UART_Send_String_data(char *);
-extern void UART_Send_Char_data(char);
 
 /* Interrupt functions ****************************************************/
 
