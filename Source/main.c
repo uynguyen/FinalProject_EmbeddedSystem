@@ -51,6 +51,7 @@ void BTN_Init(void)
  *----------------------------------------------------------------------------*/
 void show_Basic_Infor(void)
 {
+    
     char recv = 0;
     char *student_info_title = "\r\n1.Student info";
     char *id_student1 = "\r\nID: 1212505";
@@ -103,6 +104,7 @@ int main()
     strcat(main_menu, main_option_4);
     strcat(main_menu, main_option_5);
     strcat(main_menu, main_input_your_choice);
+
    
 
     UART_Init(9600);
@@ -183,14 +185,17 @@ int main()
         }
     }
     #else
+        uint16_t spi_receive_data;
         LED_Init();
         mySPI_Init(SPI_Mode_Slave);
         All_LED_On();
         while(1){
-             LED_INDEX data = (LED_INDEX) mySPIx_GetData();
-             All_LED_Off();
-            
-             LED_On(data);
+            if (spi1_get_status() == RECEIVE_COMPLETE)
+            {
+                spi_receive_data = spi1_get_receive_data();     
+                All_LED_Off();               
+                LED_On((LED_INDEX)spi_receive_data);
+            }
        }
     #endif
     return 1;
