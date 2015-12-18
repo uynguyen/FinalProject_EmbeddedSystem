@@ -10,6 +10,7 @@
 #include "SPI.h"
 #include "audio.h"
 
+
 //#include "linkedlist.h"
 //#include "MyStack.h"
 
@@ -27,6 +28,7 @@ void BTN_Init(void)
 
 void show_Basic_Infor(void)
 {
+    
     char recv = 0;
     char *id_student1 = "\r\nID: 1212505";
     char *fullname_student1 = "\r\nFull name: Nguyen Long Uy";
@@ -90,7 +92,6 @@ int main()
     }
     
 
-    
 
     strcpy(main_menu, greeting); 
     strcat(main_menu, option_1);
@@ -188,10 +189,12 @@ int main()
         mySPI_Init(SPI_Mode_Slave);
         All_LED_On();
         while(1){
-             LED_INDEX data = (LED_INDEX) mySPIx_GetData();
-             All_LED_Off();
-            
-             LED_On(data);
+            if (spi1_get_status() == RECEIVE_COMPLETE)
+        {
+            spi_receive_data = spi1_get_receive_data();     
+            All_LED_Off();               
+            LED_On((LED_INDEX)spi_receive_data);
+        }
        }
     #endif
     return 1;

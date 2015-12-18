@@ -4,6 +4,9 @@
 
 #include "LED.h"
 #include "SPI.h"
+
+uint8_t spi_receive_data;
+spi_status_t current_status = NOT_INIT;
 /*----------------------------------------------------------------------------*
 **Func name: mySPIx_GetData                                                   *
 **Execute: Get data from SPI->DR                                              *
@@ -51,7 +54,7 @@ void mySPIx_SendData(uint8_t data){
 void mySPI_Init(uint16_t ROLE){
     SPI_InitTypeDef SPI_InitTypeDefStruct;
     GPIO_InitTypeDef GPIO_InitTypeDefStruct;
-
+    NVIC_InitTypeDef NVIC_InitStructure;
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_SPI1, ENABLE);
 
     SPI_InitTypeDefStruct.SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_2;
@@ -86,7 +89,58 @@ void mySPI_Init(uint16_t ROLE){
     GPIO_PinAFConfig(GPIOA, GPIO_PinSource7, GPIO_AF_SPI1);
     
     GPIO_SetBits(GPIOE, GPIO_Pin_3);
+    //config interupt
+    // Configure the NVIC Preemption Priority Bits
+    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_0);
+    NVIC_InitStructure.NVIC_IRQChannel = SPI1_IRQn;
+    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
+    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;
+    NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+    NVIC_Init(&NVIC_InitStructure);
+    // Enable the SPI1 Interrupt
+    SPI_ITConfig(SPI1, SPI_IT_RXNE, ENABLE);
     
     SPI_Cmd(SPI1, ENABLE);
+    current_status = AVAILABLE;
+}
 
+
+///
+/// @brief:  get received data with SPI1
+/// @param:  void
+/// @return: data with received
+///
+uint8_t spi1_get_receive_data(void)
+{
+    uint8_t data = 0x00;
+    
+    if (current_status == RECEIVE_COMPLETE)
+    {
+        data = spi_receive_data;
+        current_status = AVAILABLE;
+    }
+    
+    return data;
+}
+
+
+///
+/// @brief:  get current status of SPI1
+/// @param:  data: data to send
+/// @return: void
+///
+spi_status_t spi1_get_status(void)
+{
+    return current_status;
+}
+
+//SPI1 IT handler
+void SPI1_IRQHandler(void)
+{
+    if (SPI_I2S_GetITStatus(SPI1, SPI_I2S_IT_RXNE) == SET)
+    {
+        current_status = RECEIVING;
+        spi_receive_data = SPI_I2S_ReceiveData(SPI1);
+        current_status = RECEIVE_COMPLETE;
+    }
 }

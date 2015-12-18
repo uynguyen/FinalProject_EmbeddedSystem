@@ -35,7 +35,7 @@ I (.\CMSIS\Include\stm32f4xx_tim.h)(0x56730AB6)
 I (.\CMSIS\Include\stm32f4xx_usart.h)(0x56730AB6)
 I (.\CMSIS\Include\stm32f4xx_wwdg.h)(0x56730AB6)
 I (.\CMSIS\Include\misc.h)(0x56730AB6)
-F (.\Source\main.c)(0x5673C512)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I.\CMSIS\Include -I.\Include -I.\Audio\inc -I.\Audio\STM32F4-Discovery-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\ST\STM32F4xx-DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx-o .\object\main.o --omf_browse .\object\main.crf --depend .\object\main.d)
+F (.\Source\main.c)(0x5673CDC4)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I.\CMSIS\Include -I.\Include -I.\Audio\inc -I.\Audio\STM32F4-Discovery-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\ST\STM32F4xx-DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx-o .\object\main.o --omf_browse .\object\main.crf --depend .\object\main.d)
 I (.\CMSIS\Include\stm32f4xx.h)(0x56730AB6)
 I (.\CMSIS\Include\core_cm4.h)(0x56730AB6)
 I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C7D364)
@@ -78,7 +78,7 @@ I (.\Include\Led.h)(0x56730AB6)
 I (.\Include\SimpleLED.h)(0x56730AB6)
 I (.\Include\Operation.h)(0x5673C450)
 I (.\Include\AdvanceLED.h)(0x5673C450)
-I (.\Include\SPI.h)(0x56730AB6)
+I (.\Include\SPI.h)(0x5673CCEA)
 I (.\Include\audio.h)(0x56738128)
 F (.\Source\LED.c)(0x56730AB6)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I.\CMSIS\Include -I.\Include -I.\Audio\inc -I.\Audio\STM32F4-Discovery-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\ST\STM32F4xx-DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx-o .\object\led.o --omf_browse .\object\led.crf --depend .\object\led.d)
 I (.\CMSIS\Include\STM32F4xx.h)(0x56730AB6)
@@ -116,7 +116,7 @@ I (.\CMSIS\Include\stm32f4xx_usart.h)(0x56730AB6)
 I (.\CMSIS\Include\stm32f4xx_wwdg.h)(0x56730AB6)
 I (.\CMSIS\Include\misc.h)(0x56730AB6)
 I (.\Include\LED.h)(0x56730AB6)
-F (.\Source\SPI.c)(0x56730AB6)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I.\CMSIS\Include -I.\Include -I.\Audio\inc -I.\Audio\STM32F4-Discovery-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\ST\STM32F4xx-DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx-o .\object\spi.o --omf_browse .\object\spi.crf --depend .\object\spi.d)
+F (.\Source\SPI.c)(0x5673CD46)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I.\CMSIS\Include -I.\Include -I.\Audio\inc -I.\Audio\STM32F4-Discovery-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\ST\STM32F4xx-DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx-o .\object\spi.o --omf_browse .\object\spi.crf --depend .\object\spi.d)
 I (.\CMSIS\Include\stm32f4xx.h)(0x56730AB6)
 I (.\CMSIS\Include\core_cm4.h)(0x56730AB6)
 I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C7D364)
@@ -153,7 +153,7 @@ I (.\CMSIS\Include\stm32f4xx_wwdg.h)(0x56730AB6)
 I (.\CMSIS\Include\misc.h)(0x56730AB6)
 I (C:\Keil\ARM\ARMCC\include\stdio.h)(0x51C7D364)
 I (.\Include\LED.h)(0x56730AB6)
-I (.\Include\SPI.h)(0x56730AB6)
+I (.\Include\SPI.h)(0x5673CCEA)
 F (.\Source\Uart.c)(0x56738EDE)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I.\CMSIS\Include -I.\Include -I.\Audio\inc -I.\Audio\STM32F4-Discovery-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\ST\STM32F4xx-DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx-o .\object\uart.o --omf_browse .\object\uart.crf --depend .\object\uart.d)
 I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C7D364)
 I (.\Include\uart.h)(0x56730AB6)
@@ -358,7 +358,7 @@ I (.\Include\LED.h)(0x56730AB6)
 I (.\Include\Uart.h)(0x56730AB6)
 I (C:\Keil\ARM\ARMCC\include\string.h)(0x51C7D364)
 I (.\Include\AdvanceLED.h)(0x5673C450)
-I (.\Include\SPI.h)(0x56730AB6)
+I (.\Include\SPI.h)(0x5673CCEA)
 I (.\Audio\STM32F4-Discovery\stm32f4_discovery.h)(0x4EAA222E)
 F (.\CMSIS\misc.c)(0x56730AB6)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I.\CMSIS\Include -I.\Include -I.\Audio\inc -I.\Audio\STM32F4-Discovery-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\ST\STM32F4xx-DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx-o .\object\misc.o --omf_browse .\object\misc.crf --depend .\object\misc.d)
 I (.\CMSIS\Include\misc.h)(0x56730AB6)
