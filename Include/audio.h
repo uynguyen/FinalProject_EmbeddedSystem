@@ -4,16 +4,15 @@
 #ifndef __AUDIO_H
 #define __AUDIO_H
 
+void execute_Audio_Function(void);
 
-void init(void);
 
 void play(void);
 
-void pause(void);
-
 void stop(void);
 
-void loop(void);
+void volume_up(void);
 
+void volume_down(void);
 
 #endif

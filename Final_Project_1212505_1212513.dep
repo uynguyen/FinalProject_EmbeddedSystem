@@ -1,6 +1,6 @@
 Dependencies for Project 'Final_Project', Target '1212505_1212513': (DO NOT MODIFY !)
 F (.\startup_stm32f40_41xxx.s)(0x532C012A)(--cpu Cortex-M4.fp -g --apcs=interwork -I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\ST\STM32F4xx--list .\listing\startup_stm32f40_41xxx.lst --xref -o .\object\startup_stm32f40_41xxx.o --depend .\object\startup_stm32f40_41xxx.d)
-F (.\system_stm32f4xx.c)(0x4EAA2206)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I.\CMSIS\Include -I.\Include-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\ST\STM32F4xx-DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx-o .\object\system_stm32f4xx.o --omf_browse .\object\system_stm32f4xx.crf --depend .\object\system_stm32f4xx.d)
+F (.\system_stm32f4xx.c)(0x5673BB0C)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I.\CMSIS\Include -I.\Include-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\ST\STM32F4xx-DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx-o .\object\system_stm32f4xx.o --omf_browse .\object\system_stm32f4xx.crf --depend .\object\system_stm32f4xx.d)
 I (.\CMSIS\Include\stm32f4xx.h)(0x4EAA2206)
 I (.\CMSIS\Include\core_cm4.h)(0x4EAA2206)
 I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C7D364)
@@ -78,7 +78,7 @@ I (.\Include\SimpleLED.h)(0x566423B1)
 I (.\Include\Operation.h)(0x5673B90C)
 I (.\Include\AdvanceLED.h)(0x566ADB5A)
 I (.\Include\SPI.h)(0x566AEA35)
-I (.\Include\audio.h)(0x566B0473)
+I (.\Include\audio.h)(0x5673BB0C)
 I (C:\Keil\ARM\ARMCC\include\stdlib.h)(0x51C7D364)
 F (.\Source\LED.c)(0x566AF15C)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I.\CMSIS\Include -I.\Include-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\ST\STM32F4xx-DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx-o .\object\led.o --omf_browse .\object\led.crf --depend .\object\led.d)
 I (.\CMSIS\Include\STM32F4xx.h)(0x4EAA2206)
@@ -154,7 +154,7 @@ I (.\CMSIS\Include\misc.h)(0x4EAA220A)
 I (C:\Keil\ARM\ARMCC\include\stdio.h)(0x51C7D364)
 I (.\Include\LED.h)(0x566AF668)
 I (.\Include\SPI.h)(0x566AEA35)
-F (.\Source\Uart.c)(0x566AC507)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I.\CMSIS\Include -I.\Include-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\ST\STM32F4xx-DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx-o .\object\uart.o --omf_browse .\object\uart.crf --depend .\object\uart.d)
+F (.\Source\Uart.c)(0x5673BB0C)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I.\CMSIS\Include -I.\Include-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\ST\STM32F4xx-DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx-o .\object\uart.o --omf_browse .\object\uart.crf --depend .\object\uart.d)
 I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C7D364)
 I (.\Include\uart.h)(0x566AC4F0)
 I (.\CMSIS\Include\stm32f4xx_usart.h)(0x4EAA220A)
@@ -191,8 +191,6 @@ I (.\CMSIS\Include\stm32f4xx_tim.h)(0x4EAA220A)
 I (.\CMSIS\Include\stm32f4xx_wwdg.h)(0x4EAA220A)
 I (.\CMSIS\Include\misc.h)(0x4EAA220A)
 I (C:\Keil\ARM\ARMCC\include\stddef.h)(0x51C7D364)
-I (.\Include\MyQueue.h)(0x566AA525)
-I (.\Include\CommonDefine.h)(0x566AA514)
 I (C:\Keil\ARM\ARMCC\include\stdlib.h)(0x51C7D364)
 F (.\Source\SimpleLED.c)(0x566AF1AD)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I.\CMSIS\Include -I.\Include-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\ST\STM32F4xx-DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx-o .\object\simpleled.o --omf_browse .\object\simpleled.crf --depend .\object\simpleled.d)
 I (.\CMSIS\Include\STM32F4xx.h)(0x4EAA2206)
