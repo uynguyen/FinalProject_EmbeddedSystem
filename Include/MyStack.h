@@ -1,17 +1,12 @@
-#include "CommonDefine.h"
-#ifndef __MyStack_H
-#define __MyStack_H
 
 
-typedef struct{
-    Token    *data;
-    char    stackCapacity;
-    char    stackSize;
-} MyStack;
+#ifndef __MY_STACK__
+#define __MY_STACK__
 
-extern void stackPushData(Token,MyStack*);
-extern char stackPopData(MyStack*);
+void init_stack(LinkedList *list);
 
+void push_to_stack(LinkedList *list, void* value);
 
+void* pop_from_stack(LinkedList *list);
 
 #endif

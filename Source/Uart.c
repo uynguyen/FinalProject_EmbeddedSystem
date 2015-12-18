@@ -5,7 +5,6 @@
 #include "stm32f4xx.h"
 #include "system_stm32f4xx.h"
 #include <stddef.h>
-#include "MyQueue.h"
 #include <stdlib.h>
 /*----------------------------------------------------------------------------*
  *                      Define variables                                      *

@@ -8,6 +8,8 @@
 #include "AdvanceLED.h"
 #include "SPI.h"
 #include "audio.h"
+
+
 /*----------------------------------------------------------------------------*
 **                               DEFINE VARIABLE                              *
 *----------------------------------------------------------------------------*/
@@ -51,10 +53,8 @@ void show_Basic_Infor(void)
 *----------------------------------------------------------------------------*/
 int main()
 {
-    SystemCoreClockUpdate();                      /* Get Core Clock Frequency   */
-    if (SysTick_Config(SystemCoreClock / 1000)) { /* SysTick 1 msec interrupts  */
-      while (1);                                  /* Capture error              */
-    }
+   
+
     #ifdef MASTER
     char recv = 0;
     char isSpecialKey = 0;
@@ -67,6 +67,11 @@ int main()
     char *option_5 = "\r\n5.Audio.";
     char *input_your_choice = "\r\nInput your choice --> ";
     char *esc_string = "\r\nESC: return previous menu.";
+    SystemCoreClockUpdate();                      /* Get Core Clock Frequency   */
+    if (SysTick_Config(SystemCoreClock / 1000)) { /* SysTick 1 msec interrupts  */
+      while (1);                                  /* Capture error              */
+    }
+    
 
     strcpy(main_menu, greeting); 
     strcat(main_menu, option_1);
@@ -79,7 +84,7 @@ int main()
 
     UART_Init(9600);
     LED_Init();
-    mySPI_Init(SPI_Mode_Master);
+  //  mySPI_Init(SPI_Mode_Master);
     BTN_Init();
     
     UART_Send_String_data(main_menu);
@@ -114,6 +119,7 @@ int main()
                     break;
                     
                     case (int)'5':
+                        execute_Audio_Function();
                     break;
                     
                     default:
