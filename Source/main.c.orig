@@ -9,9 +9,12 @@
 #include "AdvanceLED.h"
 #include "SPI.h"
 #include "audio.h"
-
+<<<<<<< HEAD
 //#include "linkedlist.h"
 //#include "MyStack.h"
+=======
+#include <stdlib.h>
+>>>>>>> f7bcad7f01f032cd75a434b62601f41e456f061d
 
 /*----------------------------------------------------------------------------*
 **                               DEFINE VARIABLE                              *
@@ -52,6 +55,7 @@ void show_Basic_Infor(void)
 *----------------------------------------------------------------------------*/
 int main()
 {
+<<<<<<< HEAD
 //    int value = 10;
 //    int pop = 0;
 //    LinkedList stack;
@@ -72,6 +76,8 @@ int main()
 //    
 //    pop = (int)pop_from_stack(stack);
 
+=======
+>>>>>>> f7bcad7f01f032cd75a434b62601f41e456f061d
     #ifdef MASTER
     char recv = 0;
     char isSpecialKey = 0;
@@ -88,10 +94,6 @@ int main()
     if (SysTick_Config(SystemCoreClock / 1000)) { /* SysTick 1 msec interrupts  */
       while (1);                                  /* Capture error              */
     }
-    
-
-    
-
     strcpy(main_menu, greeting); 
     strcat(main_menu, option_1);
     strcat(main_menu, option_2);
@@ -142,46 +144,6 @@ int main()
             UART_Send_String_data("\033[2J");
             UART_Send_String_data(main_menu);
         }
-        // UART currently transfer data, don't access it.
-        
-
-            recv = UART_PopData();
-    
-            if(recv != 0)
-            {
-                
-                switch(recv & 0xff)
-                {
-                    case (int)'1':
-                       show_Basic_Infor();
-                      
-                    break;
-                    
-                    case (int)'2':
-                        execute_Basic_Operation_Function();
-                    break;
-                    
-                    case (int)'3':
-                        execute_Simple_LED_Function();
-
-                    break;
-                    
-                    case (int)'4':
-                        execute_Advance_LED_Function();
-                    break;
-                    
-                    case (int)'5':
-                        execute_Audio_Function();
-                    break;
-                    
-                    default:
-                    break;
-                }
-                UART_Send_String_data("\033[2J");
-                UART_Send_String_data(main_menu);
-            }
-            
-        
     }
     #else
         LED_Init();
