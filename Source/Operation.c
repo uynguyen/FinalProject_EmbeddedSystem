@@ -31,6 +31,7 @@
  *                      Define variables                                      *
  *----------------------------------------------------------------------------*/
 char basic_operation_menu[200];
+char *basic_oper_title = "2. Basic operation.";
 char *basic_oper_option_1 = "\r\na.Plus.";
 char *basic_oper_option_2 = "\r\nb.Subtract.";
 char *basic_oper_option_3 = "\r\nc.Multiple.";
@@ -53,8 +54,8 @@ Operation funct_pointer[] = {operation_Add, operation_Subtract, operation_Multip
  *----------------------------------------------------------------------------*/
 void send_Basic_Operation_Menu(void)
 {
-
-    strcpy(basic_operation_menu, basic_oper_option_1); 
+    strcpy(basic_operation_menu, basic_oper_title);
+    strcat(basic_operation_menu, basic_oper_option_1); 
     strcat(basic_operation_menu, basic_oper_option_2);
     strcat(basic_operation_menu, basic_oper_option_3);
     strcat(basic_operation_menu, basic_oper_option_4);

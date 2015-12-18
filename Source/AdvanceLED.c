@@ -17,13 +17,17 @@
 #include <string.h>
 #include "AdvanceLED.h"
 #include "SPI.h"
+#include "stm32f4_discovery.h"
+
 
 /*----------------------------------------------------------------------------*
  *                      Define variables                                      *
  *----------------------------------------------------------------------------*/
+
 volatile int32_t LED_index = 0;
 volatile LED_DIRECTION led_direction = CLOCKWISE;
 volatile LED_INDEX led_array[4] = { Green_LED, Orange_LED, Red_LED, Blue_LED};
+volatile uint32_t msTicks;
 
 /*----------------------------------------------------------------------------*
 **Func name: send_Advance_LED_Menu                                           *
@@ -34,10 +38,12 @@ volatile LED_INDEX led_array[4] = { Green_LED, Orange_LED, Red_LED, Blue_LED};
 void send_Advance_LED_Menu(void)
 {
     char simple_LED_menu[200];
+    char *advance_LED_title = "4. Advance LED.";
     char *option_1 = "\r\na.Set LED.";
     char *option_2 = "\r\nb.Set direction.";
     char *option_3 = "\r\nc.Start.";
-    strcpy(simple_LED_menu, option_1); 
+    strcpy(simple_LED_menu, advance_LED_title); 
+    strcat(simple_LED_menu, option_1); 
     strcat(simple_LED_menu, option_2);
     strcat(simple_LED_menu, option_3);
     UART_Send_String_data(simple_LED_menu);
@@ -55,7 +61,6 @@ void Set_led()
     UART_Send_String_data("\r\n---------------------------");
     UART_Send_String_data("\r\na.Set LED (r,g,o,b): ");
     UART_Send_String_data("\r\n ESC: return previous menu");
-    
 
     do
     {
@@ -86,30 +91,47 @@ void Set_led()
     
     
 }
-/*----------------------------------------------------------------------------
-  Function that read Button pins
+
+/*----------------------------------------------------------------------------*
+**Func name: BTN_Get                                                          *
+**Execute: Get user button state                                              *
+**Func params: None                                                           *
+**Func return:                                                                *
+**             uint32_t : State of user button                                *
  *----------------------------------------------------------------------------*/
 uint32_t BTN_Get(void) {
-    return (GPIOA->IDR & (1UL << 0));
+    return STM_EVAL_PBGetState(BUTTON_USER);
 }
 
-volatile uint32_t msTicks;
+
+
 
 void SysTick_Handler (void) //Enter here every 1 ms
 {
     msTicks++;
 }
 
-//-------------------------------
+/*----------------------------------------------------------------------------*
+**Func name: Delay                                                            *
+**Execute: Delay function                                                     *
+**Func params: None                                                           *
+**Func return:                                                                *
+**             None                                                           *
+ *----------------------------------------------------------------------------*/
 void Delay(uint32_t dlyTicks)
 {
     uint32_t curTicks;
-
     curTicks = msTicks;
     while ((msTicks - curTicks) < dlyTicks);
 }
 
-
+/*----------------------------------------------------------------------------*
+**Func name: Set_direction                                                    *
+**Execute: Set direction of LEDs                                              *
+**Func params: None                                                           *
+**Func return:                                                                *
+**             None                                                           *
+ *----------------------------------------------------------------------------*/
 void Set_direction()
 {
     char direction = 0;
@@ -152,6 +174,13 @@ void Set_direction()
     
     
 }
+
+/*----------------------------------------------------------------------------*
+**Func name: Run                                                              *
+**Execute: Handler RUN SPI function                                           *
+**Func params: None                                                           *
+**Func return: None                                                           *
+ *----------------------------------------------------------------------------*/
 void Run()
 {   
     uint32_t btns = 0;
@@ -182,6 +211,13 @@ void Run()
         }
     }while(revc != 27);
 }
+
+/*----------------------------------------------------------------------------*
+**Func name: execute_Advance_LED_Function                                     *
+**Execute: Handler advance LED function                                       *
+**Func params: None                                                           *
+**Func return: None                                                           *
+ *----------------------------------------------------------------------------*/
 void execute_Advance_LED_Function(void)
 {
     char recv = 0;

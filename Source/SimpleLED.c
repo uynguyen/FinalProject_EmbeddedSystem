@@ -21,6 +21,7 @@
 void send_Simple_LED_Menu(void)
 {
     char simple_LED_menu[200];
+    char *simple_LED_title = "3.Simple LED.";
     char *option_1 = "\r\na.On Green.";
     char *option_2 = "\r\nb.Off Green.";
     char *option_3 = "\r\nc.On Orange.";
@@ -32,7 +33,8 @@ void send_Simple_LED_Menu(void)
     char *option_9 = "\r\ni.On All LED.";
     char *option_10 = "\r\nj.Off All LED.";
     char *esc_string = "\r\nESC: return previous menu.";
-    strcpy(simple_LED_menu, option_1); 
+    strcpy(simple_LED_menu, simple_LED_title); 
+    strcat(simple_LED_menu, option_1); 
     strcat(simple_LED_menu, option_2);
     strcat(simple_LED_menu, option_3);
     strcat(simple_LED_menu, option_4);
