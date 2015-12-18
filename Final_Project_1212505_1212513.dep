@@ -35,7 +35,7 @@ I (.\CMSIS\Include\stm32f4xx_tim.h)(0x4EAA220A)
 I (.\CMSIS\Include\stm32f4xx_usart.h)(0x4EAA220A)
 I (.\CMSIS\Include\stm32f4xx_wwdg.h)(0x4EAA220A)
 I (.\CMSIS\Include\misc.h)(0x4EAA220A)
-F (.\Source\main.c)(0x5673C0C3)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I.\CMSIS\Include -I.\Include -I.\Audio\inc -I.\Audio\STM32F4-Discovery-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\ST\STM32F4xx-DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx-o .\object\main.o --omf_browse .\object\main.crf --depend .\object\main.d)
+F (.\Source\main.c)(0x5673C5B7)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I.\CMSIS\Include -I.\Include -I.\Audio\inc -I.\Audio\STM32F4-Discovery-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\ST\STM32F4xx-DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx-o .\object\main.o --omf_browse .\object\main.crf --depend .\object\main.d)
 I (.\CMSIS\Include\stm32f4xx.h)(0x4EAA2206)
 I (.\CMSIS\Include\core_cm4.h)(0x4EAA2206)
 I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C7D364)
@@ -894,7 +894,7 @@ I (.\Audio\STM32F4-Discovery\stm32f4_discovery_audio_codec.h)(0x5673BB0C)
 I (.\Audio\STM32F4-Discovery\stm32f4_discovery_lis302dl.h)(0x5673BB0C)
 I (C:\Keil\ARM\ARMCC\include\stdio.h)(0x51C7D364)
 I (.\Audio\inc\waveplayer.h)(0x5673BB0C)
-F (.\AudioFiles\audio_sample.c)(0x5673BB0C)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I.\CMSIS\Include -I.\Include -I.\Audio\inc -I.\Audio\STM32F4-Discovery-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\ST\STM32F4xx-DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx-o .\object\audio_sample.o --omf_browse .\object\audio_sample.crf --depend .\object\audio_sample.d)
+F (.\AudioFiles\audio_sample.c)(0x5673C5C7)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I.\CMSIS\Include -I.\Include -I.\Audio\inc -I.\Audio\STM32F4-Discovery-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\ST\STM32F4xx-DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx-o .\object\audio_sample.o --omf_browse .\object\audio_sample.crf --depend .\object\audio_sample.d)
 I (.\CMSIS\Include\stm32f4xx.h)(0x4EAA2206)
 I (.\CMSIS\Include\core_cm4.h)(0x4EAA2206)
 I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C7D364)

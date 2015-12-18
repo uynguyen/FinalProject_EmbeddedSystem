@@ -26,6 +26,12 @@ void BTN_Init(void) {
   GPIOA->PUPDR    &= ~((3UL << 2*0)  );         /* PA.0 is no Pull up         */
 }
 
+/*----------------------------------------------------------------------------*
+**Func name: show_Basic_Infor                                                 *
+**Execute: Show students info                                                 *
+**Func params: None                                                           *
+**Func return: None                                                           *
+ *----------------------------------------------------------------------------*/
 void show_Basic_Infor(void)
 {
     char recv = 0;
