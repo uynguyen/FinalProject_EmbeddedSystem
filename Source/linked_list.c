@@ -3,24 +3,18 @@
 
 
 
-void initList(LinkedList *list)
+void initList(LinkedList list)
 {
-    list->head = 0;
-    list->tail = 0;
-    list->add_to_head = add_head;
-    list->add_to_tail = add_tail;
-    list->get_head = get_head;
-    list->get_tail = get_tail;
-    list->is_empty = is_empty;
-    list->remove_from_head = remove_head;
+    list.head = 0;
+    list.tail = 0;
 }
 
 Node* create_node(void* value)
 {
     Node* p;
     void* val;
-    p = (struct node*)malloc(sizeof(struct node));
-    val = (void*)malloc(sizeof(value));
+    p = (Node*)malloc(sizeof(Node));
+    val = (void *)malloc(sizeof(value));
     val = value;
     p->next = 0;
     p->value = val;
@@ -29,7 +23,7 @@ Node* create_node(void* value)
 
 void add_head(LinkedList list, Node* elm)
 {
-    if (list.is_empty)
+    if (is_empty(list))
     {
         list.head = list.tail = elm;
     }
@@ -43,7 +37,7 @@ void add_head(LinkedList list, Node* elm)
 
 void add_tail(LinkedList list, Node* elm)
 {
-        if (list.is_empty)
+        if (is_empty(list))
     {
         list.head = list.tail = elm;
     }
@@ -56,7 +50,7 @@ void add_tail(LinkedList list, Node* elm)
 
 void remove_head(LinkedList list)
 {
-    if (!list.is_empty)
+    if (is_empty(list) == 1)
     {
         Node* p = list.head;
         list.head = p->next;
@@ -78,5 +72,5 @@ Node* get_tail(LinkedList list)
 
 int is_empty(LinkedList list)
 {
-    return list.head == 0;
+    return list.head == 0 ? 1: 0;
 }

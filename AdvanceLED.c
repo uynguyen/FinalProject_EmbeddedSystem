@@ -19,6 +19,7 @@
 #include <string.h>
 #include "AdvanceLED.h"
 #include "SPI.h"
+#include "stm32f4_discovery.h"
 volatile int32_t LED_index = 0;
 volatile LED_DIRECTION led_direction = CLOCKWISE;
 volatile LED_INDEX led_array[4] = { Green_LED, Orange_LED, Red_LED, Blue_LED};
@@ -74,7 +75,7 @@ void Set_led()
   Function that read Button pins
  *----------------------------------------------------------------------------*/
 uint32_t BTN_Get(void) {
-    return (GPIOA->IDR & (1UL << 0));
+    return STM_EVAL_PBGetState(BUTTON_USER);
 }
 
 volatile uint32_t msTicks;
