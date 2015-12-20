@@ -24,10 +24,9 @@ typedef enum
 
 
 
-uint8_t spi1_get_receive_data(void);
-spi_status_t spi1_get_status(void);
+uint8_t mySPI_Get_Receive_Data(void);
+spi_status_t mySPI_Get_Status(void);
 extern void mySPI_Init(uint16_t);
-extern uint8_t mySPIx_GetData(void);
 extern void mySPIx_SendData(uint8_t);
 
 

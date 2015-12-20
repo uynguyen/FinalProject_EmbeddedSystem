@@ -84,7 +84,6 @@ int main()
 {
     #ifdef MASTER
     char recv = 0;
-
     char main_menu[100];
     char *main_greeting = "Choose your option:";
     char *main_option_1 = "\r\n1.Student info.";
@@ -106,8 +105,6 @@ int main()
     strcat(main_menu, main_option_4);
     strcat(main_menu, main_option_5);
     strcat(main_menu, main_input_your_choice);
-
-   
 
     UART_Init(9600);
     LED_Init();

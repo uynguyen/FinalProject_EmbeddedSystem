@@ -35,7 +35,7 @@ I (.\CMSIS\Include\stm32f4xx_tim.h)(0x4EAA220A)
 I (.\CMSIS\Include\stm32f4xx_usart.h)(0x4EAA220A)
 I (.\CMSIS\Include\stm32f4xx_wwdg.h)(0x4EAA220A)
 I (.\CMSIS\Include\misc.h)(0x4EAA220A)
-F (.\Source\main.c)(0x5673E07D)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I.\CMSIS\Include -I.\Include -I.\Audio\inc -I.\Audio\STM32F4-Discovery-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\ST\STM32F4xx-DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx-o .\object\main.o --omf_browse .\object\main.crf --depend .\object\main.d)
+F (.\Source\main.c)(0x5676DA24)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I.\CMSIS\Include -I.\Include -I.\Audio\inc -I.\Audio\STM32F4-Discovery-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\ST\STM32F4xx-DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx-o .\object\main.o --omf_browse .\object\main.crf --depend .\object\main.d)
 I (.\CMSIS\Include\stm32f4xx.h)(0x4EAA2206)
 I (.\CMSIS\Include\core_cm4.h)(0x4EAA2206)
 I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C7D364)
@@ -78,7 +78,7 @@ I (.\Include\Led.h)(0x5673DFFF)
 I (.\Include\SimpleLED.h)(0x5673C39F)
 I (.\Include\Operation.h)(0x5673B90C)
 I (.\Include\AdvanceLED.h)(0x566ADD73)
-I (.\Include\SPI.h)(0x5673D07E)
+I (.\Include\SPI.h)(0x5676EEBC)
 I (.\Include\audio.h)(0x5673CECA)
 F (.\Source\LED.c)(0x5673C206)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I.\CMSIS\Include -I.\Include -I.\Audio\inc -I.\Audio\STM32F4-Discovery-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\ST\STM32F4xx-DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx-o .\object\led.o --omf_browse .\object\led.crf --depend .\object\led.d)
 I (.\CMSIS\Include\STM32F4xx.h)(0x4EAA2206)
@@ -116,7 +116,7 @@ I (.\CMSIS\Include\stm32f4xx_usart.h)(0x4EAA220A)
 I (.\CMSIS\Include\stm32f4xx_wwdg.h)(0x4EAA220A)
 I (.\CMSIS\Include\misc.h)(0x4EAA220A)
 I (.\Include\LED.h)(0x5673DFFF)
-F (.\Source\SPI.c)(0x5673D2DA)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I.\CMSIS\Include -I.\Include -I.\Audio\inc -I.\Audio\STM32F4-Discovery-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\ST\STM32F4xx-DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx-o .\object\spi.o --omf_browse .\object\spi.crf --depend .\object\spi.d)
+F (.\Source\SPI.c)(0x5676F152)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I.\CMSIS\Include -I.\Include -I.\Audio\inc -I.\Audio\STM32F4-Discovery-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\ST\STM32F4xx-DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx-o .\object\spi.o --omf_browse .\object\spi.crf --depend .\object\spi.d)
 I (.\CMSIS\Include\stm32f4xx.h)(0x4EAA2206)
 I (.\CMSIS\Include\core_cm4.h)(0x4EAA2206)
 I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C7D364)
@@ -153,8 +153,8 @@ I (.\CMSIS\Include\stm32f4xx_wwdg.h)(0x4EAA220A)
 I (.\CMSIS\Include\misc.h)(0x4EAA220A)
 I (C:\Keil\ARM\ARMCC\include\stdio.h)(0x51C7D364)
 I (.\Include\LED.h)(0x5673DFFF)
-I (.\Include\SPI.h)(0x5673D07E)
-F (.\Source\Uart.c)(0x5673DEE3)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I.\CMSIS\Include -I.\Include -I.\Audio\inc -I.\Audio\STM32F4-Discovery-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\ST\STM32F4xx-DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx-o .\object\uart.o --omf_browse .\object\uart.crf --depend .\object\uart.d)
+I (.\Include\SPI.h)(0x5676EEBC)
+F (.\Source\Uart.c)(0x5676EA26)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I.\CMSIS\Include -I.\Include -I.\Audio\inc -I.\Audio\STM32F4-Discovery-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\ST\STM32F4xx-DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx-o .\object\uart.o --omf_browse .\object\uart.crf --depend .\object\uart.d)
 I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C7D364)
 I (.\Include\uart.h)(0x5673DD43)
 I (.\CMSIS\Include\stm32f4xx_usart.h)(0x4EAA220A)
@@ -354,7 +354,7 @@ I (.\Include\LED.h)(0x5673DFFF)
 I (.\Include\Uart.h)(0x5673DD43)
 I (C:\Keil\ARM\ARMCC\include\string.h)(0x51C7D364)
 I (.\Include\AdvanceLED.h)(0x566ADD73)
-I (.\Include\SPI.h)(0x5673D07E)
+I (.\Include\SPI.h)(0x5676EEBC)
 I (.\Audio\STM32F4-Discovery\stm32f4_discovery.h)(0x5673BB0C)
 F (.\CMSIS\misc.c)(0x4EAA220A)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I.\CMSIS\Include -I.\Include -I.\Audio\inc -I.\Audio\STM32F4-Discovery-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\ST\STM32F4xx-DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx-o .\object\misc.o --omf_browse .\object\misc.crf --depend .\object\misc.d)
 I (.\CMSIS\Include\misc.h)(0x4EAA220A)
@@ -890,7 +890,7 @@ I (.\Audio\STM32F4-Discovery\stm32f4_discovery_audio_codec.h)(0x5673BB0C)
 I (.\Audio\STM32F4-Discovery\stm32f4_discovery_lis302dl.h)(0x5673BB0C)
 I (C:\Keil\ARM\ARMCC\include\stdio.h)(0x51C7D364)
 I (.\Audio\inc\waveplayer.h)(0x5673BB0C)
-F (.\AudioFiles\audio_sample.c)(0x5673E075)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I.\CMSIS\Include -I.\Include -I.\Audio\inc -I.\Audio\STM32F4-Discovery-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\ST\STM32F4xx-DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx-o .\object\audio_sample.o --omf_browse .\object\audio_sample.crf --depend .\object\audio_sample.d)
+F (.\AudioFiles\audio_sample.c)(0x5676ECBE)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I.\CMSIS\Include -I.\Include -I.\Audio\inc -I.\Audio\STM32F4-Discovery-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\ST\STM32F4xx-DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx-o .\object\audio_sample.o --omf_browse .\object\audio_sample.crf --depend .\object\audio_sample.d)
 I (.\CMSIS\Include\stm32f4xx.h)(0x4EAA2206)
 I (.\CMSIS\Include\core_cm4.h)(0x4EAA2206)
 I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C7D364)

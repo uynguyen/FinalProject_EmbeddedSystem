@@ -15,26 +15,38 @@
 #include "LED.h"
 #include "SPI.h"
 
+/*----------------------------------------------------------------------------*
+ *                      Define Macro                                          *
+ *----------------------------------------------------------------------------*/
+#define SPI_PREEMPTION_PRIORITY                 0
+#define SPI_SUB_PRIORITY                        1
+#define SPIx                                    SPI1
+#define SPIx_RCC_APB2Periph                     RCC_APB2Periph_SPI1
+#define SPI_GPIO                                GPIOA
+#define SPI_GPIO_Pin                           (GPIO_Pin_5 | GPIO_Pin_7 | GPIO_Pin_6)
+#define SPI_GPIO_PinSource5                     GPIO_PinSource5
+#define SPI_GPIO_PinSource6                     GPIO_PinSource6
+#define SPI_GPIO_PinSource7                     GPIO_PinSource7
 
+/*----------------------------------------------------------------------------*
+ *                      Define variables                                      *
+ *----------------------------------------------------------------------------*/
 uint8_t spi_receive_data;
+uint8_t spi_send_data;
 spi_status_t current_status = NOT_INIT;
 
 /*----------------------------------------------------------------------------*
-**Func name: mySPIx_GetData                                                   *
-**Execute: Get data from SPI->DR                                              *
+**Func name: SPI_ITConfigTXE                                                  *
+**Execute: config ITConfigTXE                                                 *
 **Func params:                                                                *
-**      None                                                                  *
-**Func return:                                                                *
-**      utin8_t: Data is received                                             *
+**             FunctinalState newState: State is set to SPI TXE               *
+**Func return: None                                                           *
  *----------------------------------------------------------------------------*/
-uint8_t mySPIx_GetData(){
-
-    GPIO_ResetBits(GPIOE, GPIO_Pin_3);
-    while( !(SPI1->SR & SPI_I2S_FLAG_RXNE) ); // wait until receive complete
-    while( !(SPI1->SR & SPI_I2S_FLAG_TXE) ); // wait until transmit complete
-    while( SPI1->SR & SPI_I2S_FLAG_BSY ); // wait until SPI is not busy anymore
-    return SPI_I2S_ReceiveData(SPI1); //return reveiced data
+void SPI_ITConfigTXE(FunctionalState newState)
+{
+    SPI_I2S_ITConfig(SPIx, SPI_I2S_IT_TXE, newState);
 }
+
 
 /*----------------------------------------------------------------------------*
 **Func name: mySPIx_SendData                                                  *
@@ -46,13 +58,8 @@ uint8_t mySPIx_GetData(){
 **      None                                                                  *
  *----------------------------------------------------------------------------*/
 void mySPIx_SendData(uint8_t data){
-
-    GPIO_ResetBits(GPIOE, GPIO_Pin_3);
-       
-    while(!SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_TXE));  //transmit buffer empty?
-    SPI_I2S_SendData(SPI1, data);
-    //wait for spi send complete
-    while(SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_TXE) == RESET);
+    spi_send_data = data;
+    SPI_ITConfigTXE(ENABLE);
 }
 /*----------------------------------------------------------------------------*
 **Func name: mySPI_Init                                                       *
@@ -67,7 +74,7 @@ void mySPI_Init(uint16_t ROLE){
     SPI_InitTypeDef SPI_InitTypeDefStruct;
     GPIO_InitTypeDef GPIO_InitTypeDefStruct;
     NVIC_InitTypeDef NVIC_InitStructure;
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_SPI1, ENABLE);
+    RCC_APB2PeriphClockCmd(SPIx_RCC_APB2Periph, ENABLE);
 
     SPI_InitTypeDefStruct.SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_2;
     SPI_InitTypeDefStruct.SPI_Direction = SPI_Direction_2Lines_FullDuplex;
@@ -82,7 +89,7 @@ void mySPI_Init(uint16_t ROLE){
     
     RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA | RCC_AHB1Periph_GPIOE , ENABLE);
     
-    GPIO_InitTypeDefStruct.GPIO_Pin = GPIO_Pin_5 | GPIO_Pin_7 | GPIO_Pin_6;
+    GPIO_InitTypeDefStruct.GPIO_Pin = SPI_GPIO_Pin;
     GPIO_InitTypeDefStruct.GPIO_Mode = GPIO_Mode_AF;
     GPIO_InitTypeDefStruct.GPIO_Speed = GPIO_Speed_50MHz;
     GPIO_InitTypeDefStruct.GPIO_OType = GPIO_OType_PP;
@@ -96,9 +103,9 @@ void mySPI_Init(uint16_t ROLE){
     GPIO_InitTypeDefStruct.GPIO_OType = GPIO_OType_PP;
     GPIO_Init(GPIOE, &GPIO_InitTypeDefStruct);
     
-    GPIO_PinAFConfig(GPIOA, GPIO_PinSource5, GPIO_AF_SPI1);
-    GPIO_PinAFConfig(GPIOA, GPIO_PinSource6, GPIO_AF_SPI1);
-    GPIO_PinAFConfig(GPIOA, GPIO_PinSource7, GPIO_AF_SPI1);
+    GPIO_PinAFConfig(SPI_GPIO, SPI_GPIO_PinSource5, GPIO_AF_SPI1);
+    GPIO_PinAFConfig(SPI_GPIO, SPI_GPIO_PinSource6, GPIO_AF_SPI1);
+    GPIO_PinAFConfig(SPI_GPIO, SPI_GPIO_PinSource7, GPIO_AF_SPI1);
     
     GPIO_SetBits(GPIOE, GPIO_Pin_3);
     
@@ -107,27 +114,27 @@ void mySPI_Init(uint16_t ROLE){
     // Configure the NVIC Preemption Priority Bits
     NVIC_PriorityGroupConfig(NVIC_PriorityGroup_0);
     NVIC_InitStructure.NVIC_IRQChannel = SPI1_IRQn;
-    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
-    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;
+    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = SPI_PREEMPTION_PRIORITY;
+    NVIC_InitStructure.NVIC_IRQChannelSubPriority = SPI_SUB_PRIORITY;
     NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
     NVIC_Init(&NVIC_InitStructure);
     // Enable the SPI1 Interrupt
-    SPI_ITConfig(SPI1, SPI_IT_RXNE, ENABLE);
+    SPI_ITConfig(SPIx, SPI_IT_RXNE, ENABLE);
     
-    SPI_Cmd(SPI1, ENABLE);
+    SPI_Cmd(SPIx, ENABLE);
     current_status = AVAILABLE;
 }
 
 
 /*----------------------------------------------------------------------------*
-**Func name: spi1_get_receive_data                                            *
+**Func name: mySPI1_Get_Receive_Data                                          *
 **Execute: get receive data from master                                       *
 **Func params:                                                                *
 **      None                                                                  *
 **Func return:                                                                *
 **      uint8_t: data                                                         *
  *----------------------------------------------------------------------------*/
-uint8_t spi1_get_receive_data(void)
+uint8_t mySPI_Get_Receive_Data(void)
 {
     uint8_t data = 0x00;
     
@@ -142,14 +149,14 @@ uint8_t spi1_get_receive_data(void)
 
 
 /*----------------------------------------------------------------------------*
-**Func name: spi1_get_status                                                  *
+**Func name: mySPI_Get_Status                                                 *
 **Execute: Get spi status                                                     *
 **Func params:                                                                *
 **      None                                                                  *
 **Func return:                                                                *
 **      spi_status: SPI status                                                *
  *----------------------------------------------------------------------------*/
-spi_status_t spi1_get_status(void)
+spi_status_t mySPI_Get_Status(void)
 {
     return current_status;
 }
@@ -164,10 +171,21 @@ spi_status_t spi1_get_status(void)
  *----------------------------------------------------------------------------*/
 void SPI1_IRQHandler(void)
 {
-    if (SPI_I2S_GetITStatus(SPI1, SPI_I2S_IT_RXNE) == SET)
+     // Ready to send.
+    if(RESET != SPI_I2S_GetITStatus(SPIx, SPI_I2S_IT_TXE))
+    {
+        SPI_ClearITPendingBit(SPIx, SPI_I2S_IT_TXE);
+        GPIO_ResetBits(GPIOE, GPIO_Pin_3);
+        SPI_I2S_SendData(SPIx, spi_send_data);
+        // Disable TXE flag.
+        SPI_ITConfigTXE(DISABLE);
+        
+    }
+    
+    if (SET == SPI_I2S_GetITStatus(SPIx, SPI_I2S_IT_RXNE))
     {
         current_status = RECEIVING;
-        spi_receive_data = SPI_I2S_ReceiveData(SPI1);
+        spi_receive_data = SPI_I2S_ReceiveData(SPIx);
         current_status = RECEIVE_COMPLETE;
     }
 }
