@@ -275,7 +275,7 @@ void UART_UpdateBuffer(volatile char szNewBuffer[])
  *----------------------------------------------------------------------------*/
 char UART_IsTransfering(void)
 {
-    return g_isTransfering;
+    return g_isTransfering;//EN / DIS IN
 }
 
 
